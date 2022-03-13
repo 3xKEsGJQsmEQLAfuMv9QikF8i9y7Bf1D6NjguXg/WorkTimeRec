@@ -1,0 +1,24 @@
+﻿<Application x:Class="WorkTimeRec.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WorkTimeRec"
+             StartupUri="/Views/MainWindow.xaml"
+             SessionEnding="Application_SessionEnding">
+    <Application.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- コントロールのスタイル -->
+                <ResourceDictionary Source="/Views/Styles/Button.xaml" />
+                <ResourceDictionary Source="/Views/Styles/ComboBox.xaml" />
+                <ResourceDictionary Source="/Views/Styles/CheckBox.xaml" />
+                <ResourceDictionary Source="/Views/Styles/ToggleButton.xaml" />
+                <ResourceDictionary Source="/Views/Styles/ListView.xaml" />
+                
+                <!-- コンバーター -->
+                <ResourceDictionary Source="/Views/Styles/_Converters.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        
+    </Application.Resources>
+</Application>
