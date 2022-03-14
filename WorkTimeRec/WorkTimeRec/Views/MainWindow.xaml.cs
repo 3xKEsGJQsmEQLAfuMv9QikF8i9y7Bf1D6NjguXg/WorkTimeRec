@@ -323,5 +323,30 @@ namespace WorkTimeRec.Views
             }
         }
 
+        private void TimeList_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (!(sender is ListView lv))
+            {
+                return;
+            }
+
+            if (!(lv.View is GridView v))
+            {
+                return;
+            }
+
+            const double MarginW = 18.0;
+            const double MinW = 75.0;
+            var w = lv.ActualWidth
+                - v.Columns[0].ActualWidth
+                - v.Columns[1].ActualWidth
+                - v.Columns[2].ActualWidth
+                - MarginW;
+            if (w < MinW)
+            {
+                w = MinW;
+            }
+            v.Columns[3].Width = w;
+        }
     }
 }

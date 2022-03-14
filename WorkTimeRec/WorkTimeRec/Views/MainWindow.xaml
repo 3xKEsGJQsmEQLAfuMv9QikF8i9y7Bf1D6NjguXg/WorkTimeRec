@@ -137,7 +137,8 @@
                   Background="Gray"
                   BorderThickness="0"
                   d:Opacity="0.9"
-                  Opacity="0.1">
+                  Opacity="0.1"
+                  SizeChanged="TimeList_SizeChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="開始"
