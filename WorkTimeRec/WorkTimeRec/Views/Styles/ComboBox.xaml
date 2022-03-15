@@ -8,6 +8,8 @@
                 Value="#F0F0F0" />
         <Setter Property="VerticalContentAlignment"
                 Value="Center" />
+        <Setter Property="IsEditable"
+                Value="True" />
     </Style>
 
 </ResourceDictionary>

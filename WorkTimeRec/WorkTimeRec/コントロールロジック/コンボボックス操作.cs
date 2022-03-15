@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,6 +67,19 @@ namespace WorkTimeRec.コントロールロジック
             }
 
             return true;
+        }
+
+        public static void テキストクリア(IEnumerable<ComboBox> combos)
+        {
+            foreach (var cmb in combos)
+            {
+                // 無効状態（作業中）のものはスキップ
+                if (cmb.IsEnabled != true)
+                {
+                    continue;
+                }
+                cmb.Text = "";
+            }
         }
 
     }

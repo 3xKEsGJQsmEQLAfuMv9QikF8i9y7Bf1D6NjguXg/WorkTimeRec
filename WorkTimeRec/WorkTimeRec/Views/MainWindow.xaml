@@ -6,9 +6,10 @@
         xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
         x:Class="WorkTimeRec.Views.MainWindow"
         mc:Ignorable="d"
+        FocusManager.FocusedElement="{Binding ElementName=WorkContent1}"
         Title="作業時間記録"
         Height="500"
-        Width="600"
+        Width="650"
         ResizeMode="CanResizeWithGrip"
         MinWidth="300"
         MinHeight="300"
@@ -38,20 +39,28 @@
                 Grid.RowSpan="3" />
 
         <StackPanel>
+            <StackPanel.Resources>
+                <Style TargetType="ToggleButton"
+                       BasedOn="{StaticResource BaseToggleButtonStyle}">
+                    <Setter Property="Content"
+                            Value="開始" />
+                    
+                    <EventSetter Event="Click"
+                                 Handler="StartToggleButton_Click" />
+                </Style>
+            </StackPanel.Resources>
+            
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <ComboBox x:Name="WorkContent1"
-                          IsEditable="True" />
+                <ComboBox x:Name="WorkContent1" />
                 <StackPanel Orientation="Horizontal"
                             Grid.Column="1">
                     <ToggleButton x:Name="StartButton1"
-                                  Content="開始"
-                                  ToolTip="Ctrl + 1"
-                                  Click="StartToggleButton_Click" />
+                                  ToolTip="Ctrl + 1" />
                 </StackPanel>
             </Grid>
 
@@ -61,14 +70,11 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <ComboBox x:Name="WorkContent2"
-                          IsEditable="True" />
+                <ComboBox x:Name="WorkContent2" />
                 <StackPanel Orientation="Horizontal"
                             Grid.Column="1">
                     <ToggleButton x:Name="StartButton2"
-                                  Content="開始"
-                                  ToolTip="Ctrl + 2"
-                                  Click="StartToggleButton_Click" />
+                                  ToolTip="Ctrl + 2" />
                 </StackPanel>
             </Grid>
 
@@ -78,14 +84,12 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <ComboBox x:Name="WorkContent3"
-                          IsEditable="True" />
+                <ComboBox x:Name="WorkContent3" />
+
                 <StackPanel Orientation="Horizontal"
                             Grid.Column="1">
                     <ToggleButton x:Name="StartButton3"
-                                  Content="開始"
-                                  ToolTip="Ctrl + 3"
-                                  Click="StartToggleButton_Click" />
+                                  ToolTip="Ctrl + 3" />
                 </StackPanel>
             </Grid>
 
@@ -95,14 +99,11 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <ComboBox x:Name="WorkContent4"
-                          IsEditable="True" />
+                <ComboBox x:Name="WorkContent4" />
                 <StackPanel Orientation="Horizontal"
                             Grid.Column="1">
                     <ToggleButton x:Name="StartButton4"
-                                  Content="開始"
-                                  ToolTip="Ctrl + 4"
-                                  Click="StartToggleButton_Click" />
+                                  ToolTip="Ctrl + 4" />
                 </StackPanel>
             </Grid>
 
@@ -112,20 +113,26 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <ComboBox x:Name="WorkContent5"
-                          IsEditable="True" />
+                <ComboBox x:Name="WorkContent5" />
                 <StackPanel Orientation="Horizontal"
                             Grid.Column="1">
                     <ToggleButton x:Name="StartButton5"
-                                  Content="開始"
-                                  ToolTip="Ctrl + 5"
-                                  Click="StartToggleButton_Click" />
+                                  ToolTip="Ctrl + 5" />
                 </StackPanel>
             </Grid>
 
             <CheckBox x:Name="IsParallelWork"
                       Content="並行作業をする(_P)"
-                      IsChecked="False" />
+                      IsChecked="False">
+                <CheckBox.ToolTip>
+                    <TextBlock>
+                        1つずつ作業を行う場合はチェックOFF<LineBreak />
+                        複数の作業を同時に行う場合はチェックをONにします。<LineBreak />
+                        チェックOFFでは、「作業中」のボタンが表示されているときに他の「開始」ボタンを押すと、<LineBreak />
+                        すでに「作業中」の作業が自動的に終了され、ボタン表示が「開始」に戻ります。
+                    </TextBlock>
+                </CheckBox.ToolTip>
+            </CheckBox>
         </StackPanel>
 
         <ListView x:Name="TimeList"
@@ -177,6 +184,48 @@
         <StackPanel Orientation="Horizontal"
                     Grid.Row="2"
                     HorizontalAlignment="Right">
+
+            <Button x:Name="LogButton"
+                    Content="📂 ログフォルダ"
+                    Style="{StaticResource CommandButtonStyle}"
+                    ToolTip="ログフォルダを開きます。"
+                    Click="LogButton_Click" />
+
+            <Button x:Name="ClearButton"
+                    Content="作業クリア"
+                    Style="{StaticResource CommandButtonStyle}"
+                    Click="ClearButton_Click">
+                <Button.ToolTip>
+                    <TextBlock>
+                        作業コンボボックスのテキストを一括クリアします。<LineBreak />
+                        現在作業中のものは除きます。<LineBreak />
+                        ドロップダウンの中身はクリアしません。
+                    </TextBlock>
+                </Button.ToolTip>
+            </Button>
+
+            <Button x:Name="StopButton"
+                    Content="作業終了(Esc)"
+                    IsCancel="True"
+                    Style="{StaticResource CommandButtonStyle}"
+                    ToolTip="作業中になっているものを一括終了させます。"
+                    Click="StopButton_Click">
+                <Button.IsEnabled>
+                    <MultiBinding Converter="{StaticResource BoolsToBoolConv}">
+                        <Binding Path="IsChecked"
+                                 ElementName="StartButton1" />
+                        <Binding Path="IsChecked"
+                                 ElementName="StartButton2" />
+                        <Binding Path="IsChecked"
+                                 ElementName="StartButton3" />
+                        <Binding Path="IsChecked"
+                                 ElementName="StartButton4" />
+                        <Binding Path="IsChecked"
+                                 ElementName="StartButton5" />
+                    </MultiBinding>
+                </Button.IsEnabled>
+            </Button>
+            
             <Button x:Name="CloseButton"
                     Content="閉じる"
                     Style="{StaticResource CommandButtonStyle}"

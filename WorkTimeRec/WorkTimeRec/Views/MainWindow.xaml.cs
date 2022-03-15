@@ -22,7 +22,7 @@ namespace WorkTimeRec.Views
     {
         private const string _workFreeText = "開始";
         private const string _workingText = "作業中・・・";
-        private static readonly RoutedEventArgs _terminateEventArgs = new();
+        private static readonly RoutedEventArgs _uiReactionSuppressEventArgs = new();
         private static readonly RoutedEventArgs _otherRoutedEventArgs = new();
         private static readonly int _minWorkIndex = 1;
         private static readonly int _maxWorkIndex = 5;
@@ -109,10 +109,16 @@ namespace WorkTimeRec.Views
 
         public void 終了処理()
         {
+            全ボタンOFF();
+            作業時間ファイル保存();
+        }
+
+        private void 全ボタンOFF()
+        {
             void ボタンOFF(ToggleButton btn)
             {
                 btn.IsChecked = false;
-                StartToggleButton_Click(btn, _terminateEventArgs);
+                StartToggleButton_Click(btn, _uiReactionSuppressEventArgs);
             }
 
             foreach (var btn in _buttonCombos.Keys)
@@ -122,7 +128,6 @@ namespace WorkTimeRec.Views
                     ボタンOFF(btn);
                 }
             }
-            作業時間ファイル保存();
         }
 
         private void 作業時間ファイル保存()
@@ -161,9 +166,11 @@ namespace WorkTimeRec.Views
                 return;
             }
 
-            if (e != _terminateEventArgs &&
+            if (btn.IsChecked == true &&
+                e != _otherRoutedEventArgs &&
                 string.IsNullOrEmpty(_buttonCombos[btn].Text))
             {
+                btn.IsChecked = false;
                 メッセージボックス.警告("作業内容を入力してください。");
                 return;
             }
@@ -252,6 +259,7 @@ namespace WorkTimeRec.Views
                 開始 = DateTime.Now,
             });
         }
+
         private void 作業終了時の作業時間情報更新(int idx, string work)
         {
             // 作業終了の情報更新
@@ -285,10 +293,53 @@ namespace WorkTimeRec.Views
             }
         }
 
+        /// <summary>
+        /// ログフォルダボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LogButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                シェル操作.実行(_timesFile.格納フォルダパス);
+            }
+            catch (Exception ex)
+            {
+                メッセージボックス.エラー(ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 作業クリアボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            コンボボックス操作.テキストクリア(_buttonCombos.Values.ToList());
+        }
+
+        /// <summary>
+        /// 作業停止ボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StopButton_Click(object sender, RoutedEventArgs e)
+        {
+            全ボタンOFF();
+        }
+
+        /// <summary>
+        /// 閉じるボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
+
         private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             void ボタンクリック(ToggleButton btn)
@@ -348,5 +399,6 @@ namespace WorkTimeRec.Views
             }
             v.Columns[3].Width = w;
         }
+
     }
 }

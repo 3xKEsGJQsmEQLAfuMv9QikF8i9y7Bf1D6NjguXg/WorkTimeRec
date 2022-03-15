@@ -14,6 +14,8 @@
     <Style x:Key="CommandButtonStyle"
            BasedOn="{StaticResource BaseButtonStyle}"
            TargetType="Button">
+        <Setter Property="Margin"
+                Value="10,10,10,18" />
         <Setter Property="MinWidth"
                 Value="120" />
     </Style>

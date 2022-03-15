@@ -12,6 +12,8 @@ namespace WorkTimeRec.ファイル
         public const string 格納フォルダ = "Record";
         private readonly string _folderPath;
 
+        public string 格納フォルダパス => _folderPath;
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
