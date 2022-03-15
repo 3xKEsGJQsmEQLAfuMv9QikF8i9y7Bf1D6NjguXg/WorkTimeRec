@@ -13,7 +13,7 @@
 
 [Releases](https://github.com/3xKEsGJQsmEQLAfuMv9QikF8i9y7Bf1D6NjguXg/WorkTimeRec/releases)から`WorkTimeRec.zip`をダウンロード。
 
-zipを右クリックし、「許可する」のチェックを入れてOKボタンで閉じる。
+zipを右クリックし、プロパティを選択、「許可する」のチェックを入れてOKボタンで閉じる。
 
 ![img01](https://user-images.githubusercontent.com/99333667/158048370-86ace359-76e7-4ad8-b551-ba03e9e58b92.png)
 
