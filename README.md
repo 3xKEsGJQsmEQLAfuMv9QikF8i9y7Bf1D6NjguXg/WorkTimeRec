@@ -8,8 +8,8 @@
 
 # インストール
 
-`.NET Desktop Runtime 6.x`の`x64`をインストール。
-[Download .NET 6.0 (Linux, macOS, and Windows)](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+[Download .NET 6.0 (Linux, macOS, and Windows)](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)から
+`.NET Desktop Runtime 6.x`の`x64`をダウンロード・インストール。
 
 [Releases](https://github.com/3xKEsGJQsmEQLAfuMv9QikF8i9y7Bf1D6NjguXg/WorkTimeRec/releases)から`WorkTimeRec.zip`をダウンロード。
 
@@ -42,7 +42,7 @@ zipを展開し、管理者権限不要な任意の場所に配置する。
 
 ![image3](https://user-images.githubusercontent.com/99333667/158487222-6e3ee35a-1e53-49f7-9248-49a37df1840d.png)
 
-作業Aを作業中に作業Bを開始すると、作業Aの作業中が自動解除され、作業Bが作業中になる（作業Aを終えて作業Bに着手）。
+作業Aを作業中に（作業Aを終了させずに）作業Bを開始すると、作業Aの作業中が自動解除され、作業Bが作業中になる（作業Aを終えて作業Bに着手）。
 
 複数の作業時間を同時に計測したい場合は、「並行作業をする」チェックをONにする。
 そうすると複数作業中状態にできる。
