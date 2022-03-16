@@ -30,10 +30,16 @@ namespace WorkTimeRec.Views
         private readonly Dictionary<ToggleButton, ComboBox> _buttonCombos = new();
         private readonly ObservableCollection<作業時間管理> _times = new();
         private readonly 作業時間ファイル _timesFile = new(パス操作.ベースパス取得());
+        private readonly 処理制御 _終了処理;
 
         public MainWindow()
         {
             InitializeComponent();
+            _終了処理 = new 処理制御(() =>
+            {
+                全ボタンOFF();
+                作業時間ファイル保存();
+            });
             App.Current.TerminateProc = 終了処理;
         }
 
@@ -109,8 +115,7 @@ namespace WorkTimeRec.Views
 
         public void 終了処理()
         {
-            全ボタンOFF();
-            作業時間ファイル保存();
+            _終了処理.一回実行();
         }
 
         private void 全ボタンOFF()
