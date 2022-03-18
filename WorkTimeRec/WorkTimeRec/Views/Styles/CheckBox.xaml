@@ -6,5 +6,7 @@
                 Value="10,10,10,0" />
         <Setter Property="Foreground"
                 Value="White" />
+        <Setter Property="HorizontalAlignment"
+                Value="Left" />
     </Style>
 </ResourceDictionary>

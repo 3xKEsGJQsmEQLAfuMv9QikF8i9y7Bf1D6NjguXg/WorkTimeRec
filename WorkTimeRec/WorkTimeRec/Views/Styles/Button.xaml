@@ -17,7 +17,7 @@
         <Setter Property="Margin"
                 Value="10,10,10,18" />
         <Setter Property="MinWidth"
-                Value="120" />
+                Value="110" />
     </Style>
 
     <!--  ボタン既定スタイル  -->
