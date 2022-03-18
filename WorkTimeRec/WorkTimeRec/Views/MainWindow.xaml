@@ -23,7 +23,7 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,1"
                                  EndPoint="1,0">
@@ -44,23 +44,31 @@
                        BasedOn="{StaticResource BaseToggleButtonStyle}">
                     <Setter Property="Content"
                             Value="開始" />
-                    
+
                     <EventSetter Event="Click"
                                  Handler="StartToggleButton_Click" />
                 </Style>
+
+                <Style TargetType="ComboBox"
+                       BasedOn="{StaticResource BaseComboBoxStyle}">
+
+                    <EventSetter Event="KeyDown"
+                                 Handler="WorkContent_KeyDown" />
+                </Style>
             </StackPanel.Resources>
-            
+
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <ComboBox x:Name="WorkContent1" />
+                <ComboBox x:Name="WorkContent1"
+                          ToolTip="Ctrl + 1" />
                 <StackPanel Orientation="Horizontal"
                             Grid.Column="1">
                     <ToggleButton x:Name="StartButton1"
-                                  ToolTip="Ctrl + 1" />
+                                  ToolTip="Ctrl + Shift + 1" />
                 </StackPanel>
             </Grid>
 
@@ -70,11 +78,12 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <ComboBox x:Name="WorkContent2" />
+                <ComboBox x:Name="WorkContent2"
+                          ToolTip="Ctrl + 2" />
                 <StackPanel Orientation="Horizontal"
                             Grid.Column="1">
                     <ToggleButton x:Name="StartButton2"
-                                  ToolTip="Ctrl + 2" />
+                                  ToolTip="Ctrl + Shift + 2" />
                 </StackPanel>
             </Grid>
 
@@ -84,12 +93,13 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <ComboBox x:Name="WorkContent3" />
+                <ComboBox x:Name="WorkContent3"
+                          ToolTip="Ctrl + 3" />
 
                 <StackPanel Orientation="Horizontal"
                             Grid.Column="1">
                     <ToggleButton x:Name="StartButton3"
-                                  ToolTip="Ctrl + 3" />
+                                  ToolTip="Ctrl + Shift + 3" />
                 </StackPanel>
             </Grid>
 
@@ -99,11 +109,12 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <ComboBox x:Name="WorkContent4" />
+                <ComboBox x:Name="WorkContent4"
+                          ToolTip="Ctrl + 4" />
                 <StackPanel Orientation="Horizontal"
                             Grid.Column="1">
                     <ToggleButton x:Name="StartButton4"
-                                  ToolTip="Ctrl + 4" />
+                                  ToolTip="Ctrl + Shift + 4" />
                 </StackPanel>
             </Grid>
 
@@ -113,11 +124,12 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <ComboBox x:Name="WorkContent5" />
+                <ComboBox x:Name="WorkContent5"
+                          ToolTip="Ctrl + 5" />
                 <StackPanel Orientation="Horizontal"
                             Grid.Column="1">
                     <ToggleButton x:Name="StartButton5"
-                                  ToolTip="Ctrl + 5" />
+                                  ToolTip="Ctrl + Shift + 5" />
                 </StackPanel>
             </Grid>
 
@@ -126,7 +138,7 @@
                       IsChecked="False">
                 <CheckBox.ToolTip>
                     <TextBlock>
-                        1つずつ作業を行う場合はチェックOFF<LineBreak />
+                        1つずつ作業を行う場合はチェックOFF、<LineBreak />
                         複数の作業を同時に行う場合はチェックをONにします。<LineBreak />
                         チェックOFFでは、「作業中」のボタンが表示されているときに他の「開始」ボタンを押すと、<LineBreak />
                         すでに「作業中」の作業が自動的に終了され、ボタン表示が「開始」に戻ります。
@@ -192,7 +204,7 @@
                     Click="LogButton_Click" />
 
             <Button x:Name="ClearButton"
-                    Content="作業クリア"
+                    Content="🧹 作業クリア"
                     Style="{StaticResource CommandButtonStyle}"
                     Click="ClearButton_Click">
                 <Button.ToolTip>
@@ -205,7 +217,7 @@
             </Button>
 
             <Button x:Name="StopButton"
-                    Content="作業終了(Esc)"
+                    Content="⏹ 作業終了(Esc)"
                     IsCancel="True"
                     Style="{StaticResource CommandButtonStyle}"
                     ToolTip="作業中になっているものを一括終了させます。"
@@ -225,7 +237,7 @@
                     </MultiBinding>
                 </Button.IsEnabled>
             </Button>
-            
+
             <Button x:Name="CloseButton"
                     Content="閉じる"
                     Style="{StaticResource CommandButtonStyle}"

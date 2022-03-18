@@ -27,9 +27,9 @@ namespace WorkTimeRec.Views
         private static readonly int _minWorkIndex = 1;
         private static readonly int _maxWorkIndex = 5;
 
-        private readonly Dictionary<ToggleButton, ComboBox> _buttonCombos = new();
+        private readonly Dictionary<ToggleButton, ComboBox> _入力項目管理 = new();
         private readonly ObservableCollection<作業時間管理> _times = new();
-        private readonly 作業時間ファイル _timesFile = new(パス操作.ベースパス取得());
+        private readonly 作業時間ファイル _timesFile = new(パス操作.ベースパス);
         private readonly 処理制御 _終了処理;
 
         public MainWindow()
@@ -45,7 +45,7 @@ namespace WorkTimeRec.Views
 
         private void タイトルのテキスト設定()
         {
-            int cnt = _buttonCombos.Count(x => x.Key.IsChecked == true);
+            int cnt = _入力項目管理.Count(x => x.Key.IsChecked == true);
             Title = cnt == 0
                 ? App.AppName :
                 $"{cnt} - {App.AppName}";
@@ -69,7 +69,7 @@ namespace WorkTimeRec.Views
                     {
                         if (FindName($"WorkContent{i}") is ComboBox cmb)
                         {
-                            _buttonCombos.Add(btn, cmb);
+                            _入力項目管理.Add(btn, cmb);
                         }
                     }
                 }
@@ -126,7 +126,7 @@ namespace WorkTimeRec.Views
                 StartToggleButton_Click(btn, _uiReactionSuppressEventArgs);
             }
 
-            foreach (var btn in _buttonCombos.Keys)
+            foreach (var btn in _入力項目管理.Keys)
             {
                 if (btn.IsChecked == true)
                 {
@@ -154,14 +154,14 @@ namespace WorkTimeRec.Views
         {
             #region ローカル関数
 
-            int GetIndex(ToggleButton btn)
+            int ボタン番号取得(ToggleButton btn)
             {
                 return int.Parse(文字列操作.右端(btn.Name));
             }
 
-            string GetWork(ToggleButton btn)
+            string 作業内容取得(ToggleButton btn)
             {
-                return _buttonCombos[btn].Text;
+                return _入力項目管理[btn].Text;
             }
 
             #endregion
@@ -173,7 +173,7 @@ namespace WorkTimeRec.Views
 
             if (btn.IsChecked == true &&
                 e != _otherRoutedEventArgs &&
-                string.IsNullOrEmpty(_buttonCombos[btn].Text))
+                string.IsNullOrEmpty(_入力項目管理[btn].Text))
             {
                 btn.IsChecked = false;
                 メッセージボックス.警告("作業内容を入力してください。");
@@ -186,22 +186,22 @@ namespace WorkTimeRec.Views
                     ? _workingText
                     : _workFreeText;
 
-                int idx = GetIndex(btn);
-                string work = GetWork(btn);
+                int idx = ボタン番号取得(btn);
+                string work = 作業内容取得(btn);
 
                 if (btn.IsChecked == true)
                 {
                     // 開始 → 作業中
 
                     作業時間情報追加(idx, work);
-                    最初のリスト登録時の表示設定();
+                    リストビュー操作.最初のリスト登録時の表示設定(TimeList);
 
-                    _buttonCombos[btn].IsEnabled = false;
+                    _入力項目管理[btn].IsEnabled = false;
 
                     // コンボボックス選択肢の更新
-                    if (コンボボックス操作.コンボリスト更新(_buttonCombos[btn], work))
+                    if (コンボボックス操作.コンボリスト更新(_入力項目管理[btn], work))
                     {
-                        作業内容ファイル.一覧ファイル保存(_buttonCombos[btn].Items, 作業内容ファイル.ファイルパス取得(idx));
+                        作業内容ファイル.一覧ファイル保存(_入力項目管理[btn].Items, 作業内容ファイル.ファイルパス取得(idx));
                     }
                 }
                 else
@@ -210,7 +210,7 @@ namespace WorkTimeRec.Views
 
                     作業終了時の作業時間情報更新(idx, work);
 
-                    _buttonCombos[btn].IsEnabled = true;
+                    _入力項目管理[btn].IsEnabled = true;
                 }
 
                 if (IsParallelWork.IsChecked == true)
@@ -223,7 +223,7 @@ namespace WorkTimeRec.Views
                 }
 
                 // 開始→作業中に変更 かつ 単一作業の場合
-                foreach (var b in _buttonCombos.Keys)
+                foreach (var b in _入力項目管理.Keys)
                 {
                     if (b == btn)
                     {
@@ -233,16 +233,16 @@ namespace WorkTimeRec.Views
                     {
                         var t = _times.FirstOrDefault(
                             x =>
-                            x.Index == GetIndex(b) &&
+                            x.Index == ボタン番号取得(b) &&
                             x.終了 == DateTime.MinValue &&
-                            x.作業内容 == GetWork(b));
+                            x.作業内容 == 作業内容取得(b));
                         if (t is not null)
                         {
                             t.終了 = DateTime.Now;
                         }
                         b.IsChecked = false;
                         b.Content = _workFreeText;
-                        _buttonCombos[b].IsEnabled = true;
+                        _入力項目管理[b].IsEnabled = true;
                     }
                 }
                 // タイトル設定
@@ -276,14 +276,6 @@ namespace WorkTimeRec.Views
             if (t is not null)
             {
                 t.終了 = DateTime.Now;
-            }
-        }
-
-        private void 最初のリスト登録時の表示設定()
-        {
-            if (TimeList.Opacity != 0.9)
-            {
-                TimeList.Opacity = 0.9;
             }
         }
 
@@ -322,7 +314,7 @@ namespace WorkTimeRec.Views
         /// <param name="e"></param>
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
-            コンボボックス操作.テキストクリア(_buttonCombos.Values.ToList());
+            コンボボックス操作.テキストクリア(_入力項目管理.Values.ToList());
         }
 
         /// <summary>
@@ -345,17 +337,18 @@ namespace WorkTimeRec.Views
             Close();
         }
 
+        private void ボタンクリック(ToggleButton btn)
+        {
+            btn.Focus();
+            btn.IsChecked = !btn.IsChecked;
+            StartToggleButton_Click(btn, _otherRoutedEventArgs);
+        }
+
         private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            void ボタンクリック(ToggleButton btn)
+            if (キー操作.CtrlとShiftキー押下)
             {
-                btn.Focus();
-                btn.IsChecked = !btn.IsChecked;
-                StartToggleButton_Click(btn, _otherRoutedEventArgs);
-            }
-
-            if (キー操作.Ctrlキー押下())
-            {
+                // Ctrl + Shift
                 switch (e.Key)
                 {
                     case System.Windows.Input.Key.D1:
@@ -377,33 +370,60 @@ namespace WorkTimeRec.Views
                         break;
                 }
             }
+            else if (キー操作.Ctrlキー押下)
+            {
+                // Ctrl
+                switch (e.Key)
+                {
+                    case System.Windows.Input.Key.D1:
+                        WorkContent1.Focus();
+                        break;
+                    case System.Windows.Input.Key.D2:
+                        WorkContent2.Focus();
+                        break;
+                    case System.Windows.Input.Key.D3:
+                        WorkContent3.Focus();
+                        break;
+                    case System.Windows.Input.Key.D4:
+                        WorkContent4.Focus();
+                        break;
+                    case System.Windows.Input.Key.D5:
+                        WorkContent5.Focus();
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
+        /// <summary>
+        /// リストビュー サイズ変更時
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TimeList_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (!(sender is ListView lv))
-            {
-                return;
-            }
-
-            if (!(lv.View is GridView v))
-            {
-                return;
-            }
-
-            const double MarginW = 18.0;
-            const double MinW = 75.0;
-            var w = lv.ActualWidth
-                - v.Columns[0].ActualWidth
-                - v.Columns[1].ActualWidth
-                - v.Columns[2].ActualWidth
-                - MarginW;
-            if (w < MinW)
-            {
-                w = MinW;
-            }
-            v.Columns[3].Width = w;
+            リストビュー操作.サイズ変更(sender, e);
         }
 
+        /// <summary>
+        /// 作業コンボボックス キー押下時
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void WorkContent_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (!(sender is ComboBox cmb))
+            {
+                return;
+            }
+
+            if (e.Key != System.Windows.Input.Key.Enter)
+            {
+                return;
+            }
+
+            ボタンクリック(_入力項目管理.First(x => x.Value == cmb).Key);
+        }
     }
 }
