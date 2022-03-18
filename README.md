@@ -15,7 +15,7 @@
 
 zipを右クリックし、プロパティを選択、「許可する」（ブロックの解除）のチェックを入れてOKボタンで閉じる。
 
-![img01](https://user-images.githubusercontent.com/99333667/158048370-86ace359-76e7-4ad8-b551-ba03e9e58b92.png)
+![プロパティ](https://user-images.githubusercontent.com/99333667/158997528-5b5e8158-f8c1-4416-bae7-45a5e45a139c.png)
 
 zipを展開し、管理者権限不要な任意の場所に配置する。
 
@@ -31,16 +31,16 @@ zipを展開し、管理者権限不要な任意の場所に配置する。
 
 `WorkTimeRec.exe`を起動する。
 
-![image1](https://user-images.githubusercontent.com/99333667/158487157-0a9235f7-ab89-4f79-9f2f-7d8d67ae95c6.png)
+![image1](https://user-images.githubusercontent.com/99333667/158997632-4083170c-63fd-4761-92b0-53e554ee79be.png)
 
 左のコンボボックスに作業内容を入力し、右の「開始」ボタンを押す。
 そうするとボタンが「作業中」の表示になり、下の一覧に作業開始時刻が追加される。
 
-![image2](https://user-images.githubusercontent.com/99333667/158487199-48d196ad-d30b-4b26-b6d5-27a4c6ad6d21.png)
+![image2](https://user-images.githubusercontent.com/99333667/158997665-982bd343-ba98-4c2a-977f-ba7d833970f0.png)
 
 作業が終わったら「作業中」のボタンを押すと、ボタンテキストが「開始」に戻り、下の一覧に作業終了時刻と、かかった時間が設定される。
 
-![image3](https://user-images.githubusercontent.com/99333667/158487222-6e3ee35a-1e53-49f7-9248-49a37df1840d.png)
+![image3](https://user-images.githubusercontent.com/99333667/158997706-49b74269-2496-4985-8f1b-2e34295bbc70.png)
 
 作業Aを作業中に（作業Aを終了させずに）作業Bを開始すると、作業Aの作業中が自動解除され、作業Bが作業中になる（作業Aを終えて作業Bに着手）。
 
@@ -48,9 +48,12 @@ zipを展開し、管理者権限不要な任意の場所に配置する。
 そうすると複数作業中状態にできる。
 タイトルバーに表示される数字は作業中の数。
 
-![image4](https://user-images.githubusercontent.com/99333667/158487249-a19ee32a-55e3-45e4-84f5-d19fb59163d8.png)
+![image4](https://user-images.githubusercontent.com/99333667/158997883-71e3ad0a-5f80-49ba-ab29-5def3b93e781.png)
 
-開始/作業中ボタンは上から順に`Ctrl`+`1` ～ `Ctrl`+`5`のショートカットキーで押すことができる。
+作業コンボボックスは上から順に`Ctrl`+`1` ～ `Ctrl`+`5`のショートカットキーでフォーカス移動できる。
+
+開始/作業中ボタンは上から順に`Ctrl`+`Shift`+`1` ～ `Ctrl`+`Shift`+`5`のショートカットキーで押すことができる。
+作業コンボボックス上からEnterキーでも可。
 
 ログフォルダボタンは作業時間ログが出力されるフォルダをエクスプローラーで開く。
 
