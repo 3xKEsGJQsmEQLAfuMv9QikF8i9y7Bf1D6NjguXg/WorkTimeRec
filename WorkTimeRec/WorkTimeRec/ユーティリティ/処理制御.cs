@@ -7,10 +7,7 @@ namespace WorkTimeRec.ユーティリティ
         private int _実行回数 = 0;
         private readonly Action _処理;
 
-        public 処理制御(Action 処理)
-        {
-            _処理 = 処理;
-        }
+        public 処理制御(Action 処理) => _処理 = 処理;
 
         public void 一回実行()
         {

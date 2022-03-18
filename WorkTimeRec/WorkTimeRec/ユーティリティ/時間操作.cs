@@ -5,10 +5,8 @@ namespace WorkTimeRec.ユーティリティ
 {
     internal class 時間操作
     {
-        public static string 現在日付取得()
-        {
-            return 年月日文字列(DateTime.Now, false);
-        }
+        public static string 現在日付取得() =>
+            年月日文字列(DateTime.Now, false);
 
         public static string 年月日文字列(DateTime dt, bool 区切り文字あり)
         {
