@@ -21,7 +21,11 @@ zipを展開し、管理者権限不要な任意の場所に配置する。
 
 # バージョンアップ
 
-展開ファイルを上書きする。
+[Releases](https://github.com/3xKEsGJQsmEQLAfuMv9QikF8i9y7Bf1D6NjguXg/WorkTimeRec/releases)から`WorkTimeRec.zip`をダウンロード。
+
+zipを右クリックし、プロパティを選択、「許可する」（ブロックの解除）のチェックを入れてOKボタンで閉じる。
+
+zipを展開し、展開ファイルを前回配置場所に上書きコピーする。
 
 # アンインストール
 
