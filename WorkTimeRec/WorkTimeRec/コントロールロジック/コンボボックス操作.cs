@@ -8,7 +8,10 @@ namespace WorkTimeRec.コントロールロジック
 {
     internal class コンボボックス操作
     {
-        public static async Task コンボ読み込みAsync(ComboBox target, string filePath)
+        public static async Task コンボ読み込みAsync(
+            ComboBox target,
+            string filePath,
+            bool selectFirstItem)
         {
             target.Items.Clear();
 
@@ -27,7 +30,8 @@ namespace WorkTimeRec.コントロールロジック
                 }
                 target.Items.Add(line);
             }
-            if (target.Items.Count != 0)
+            if (target.Items.Count != 0 &&
+                selectFirstItem)
             {
                 // データありなら最初の要素を選択状態にする
                 target.SelectedIndex = 0;
