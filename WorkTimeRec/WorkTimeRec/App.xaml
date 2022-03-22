@@ -1,24 +1,30 @@
-﻿<Application x:Class="WorkTimeRec.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:WorkTimeRec"
-             StartupUri="/Views/MainWindow.xaml"
-             SessionEnding="Application_SessionEnding">
+﻿<Application
+    x:Class="WorkTimeRec.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:WorkTimeRec"
+    SessionEnding="Application_SessionEnding"
+    StartupUri="/Views/MainWindow.xaml">
     <Application.Resources>
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!-- コントロールのスタイル -->
+
+                <!--  コントロールのスタイル  -->
                 <ResourceDictionary Source="/Views/Styles/Button.xaml" />
-                <ResourceDictionary Source="/Views/Styles/ComboBox.xaml" />
                 <ResourceDictionary Source="/Views/Styles/CheckBox.xaml" />
-                <ResourceDictionary Source="/Views/Styles/ToggleButton.xaml" />
+                <ResourceDictionary Source="/Views/Styles/ComboBox.xaml" />
+                <ResourceDictionary Source="/Views/Styles/GroupBox.xaml" />
                 <ResourceDictionary Source="/Views/Styles/ListView.xaml" />
-                
-                <!-- コンバーター -->
+                <ResourceDictionary Source="/Views/Styles/ProgressBar.xaml" />
+                <ResourceDictionary Source="/Views/Styles/RadioButton.xaml" />
+                <ResourceDictionary Source="/Views/Styles/ToggleButton.xaml" />
+
+                <!--  コンバーター  -->
                 <ResourceDictionary Source="/Views/Styles/_Converters.xaml" />
+
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-        
+
     </Application.Resources>
 </Application>
