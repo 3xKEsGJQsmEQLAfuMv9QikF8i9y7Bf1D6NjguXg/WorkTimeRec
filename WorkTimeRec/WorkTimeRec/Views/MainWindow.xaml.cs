@@ -204,7 +204,7 @@ namespace WorkTimeRec.Views
             }
 
             if (btn.IsChecked == true &&
-                e != _otherRoutedEventArgs &&
+                e != _uiReactionSuppressEventArgs &&
                 string.IsNullOrEmpty(_入力項目管理[btn].Text))
             {
                 btn.IsChecked = false;
