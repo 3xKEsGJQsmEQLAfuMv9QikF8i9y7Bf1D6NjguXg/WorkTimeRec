@@ -63,8 +63,8 @@ namespace WorkTimeRec.Views
         {
             int cnt = _入力項目管理.Count(x => x.Key.IsChecked == true);
             Title = cnt == 0
-                ? App.AppName :
-                $"{cnt} - {App.AppName}";
+                ? App.AppName
+                : $"{cnt} - {App.AppName}";
         }
 
         private void Window_Initialized(object sender, EventArgs e)
@@ -202,7 +202,7 @@ namespace WorkTimeRec.Views
             {
                 return;
             }
-
+            
             if (btn.IsChecked == true &&
                 e != _uiReactionSuppressEventArgs &&
                 string.IsNullOrEmpty(_入力項目管理[btn].Text))
@@ -225,37 +225,13 @@ namespace WorkTimeRec.Views
                 {
                     // 開始 → 作業中
 
-                    IsParallelWork.IsEnabled = false;
-                    SettingsButton.IsEnabled = false;
-                    タスクバー状態設定(処理開始: true);
-                    プログレスバー状態設定(idx, 処理開始: true);
-                    作業時間情報追加(idx, work);
-                    リストビュー操作.最初のリスト登録時の表示設定(TimeList);
-
-                    _入力項目管理[btn].IsEnabled = false;
-
-                    // コンボボックス選択肢の更新
-                    if (コンボボックス操作.コンボリスト更新(_入力項目管理[btn], work))
-                    {
-                        作業内容ファイル.一覧ファイル保存(_入力項目管理[btn].Items, 作業内容ファイル.ファイルパス取得(idx));
-                    }
+                    作業開始(btn, idx, work);
                 }
                 else
                 {
                     // 作業中 → 開始（作業終了）
 
-                    bool 作業中あり = _入力項目管理.Any(x => x.Key.IsChecked == true);
-                    if (!作業中あり)
-                    {
-                        タスクバー状態設定(処理開始: false);
-                        IsParallelWork.IsEnabled = true;
-                        SettingsButton.IsEnabled = true;
-                    }
-
-                    プログレスバー状態設定(idx, 処理開始: false);
-                    作業終了時の作業時間情報更新(idx, work);
-
-                    _入力項目管理[btn].IsEnabled = true;
+                    作業終了(btn, idx, work);
                 }
 
                 if (IsParallelWork.IsChecked == true)
@@ -268,7 +244,7 @@ namespace WorkTimeRec.Views
 
                 // 開始→作業中に変更 かつ 単一作業の場合
 
-                その他のボタン等の作業中を解除(btn);
+                他を作業終了(btn);
                 タイトルのテキスト設定();
             }
             catch (Exception ex)
@@ -276,6 +252,41 @@ namespace WorkTimeRec.Views
                 メッセージボックス.エラー(ex.ToString());
             }
 
+        }
+
+        private void 作業開始(ToggleButton btn, int idx, string work)
+        {
+            IsParallelWork.IsEnabled = false;
+            SettingsButton.IsEnabled = false;
+
+            タスクバー状態設定(処理開始: true);
+            プログレスバー状態設定(idx, 処理開始: true);
+            作業時間情報追加(idx, work);
+            リストビュー操作.最初のリスト登録時の表示設定(TimeList);
+
+            _入力項目管理[btn].IsEnabled = false;
+
+            // コンボボックス選択肢の更新
+            if (コンボボックス操作.コンボリスト更新(_入力項目管理[btn], work))
+            {
+                作業内容ファイル.一覧ファイル保存(_入力項目管理[btn].Items, 作業内容ファイル.ファイルパス取得(idx));
+            }
+        }
+
+        private void 作業終了(ToggleButton btn, int idx, string work)
+        {
+            bool 作業中あり = _入力項目管理.Any(x => x.Key.IsChecked == true);
+            if (!作業中あり)
+            {
+                タスクバー状態設定(処理開始: false);
+                IsParallelWork.IsEnabled = true;
+                SettingsButton.IsEnabled = true;
+            }
+
+            プログレスバー状態設定(idx, 処理開始: false);
+            作業終了時の作業時間情報更新(idx, work);
+
+            _入力項目管理[btn].IsEnabled = true;
         }
 
         private void タスクバー状態設定(bool 処理開始)
@@ -326,7 +337,7 @@ namespace WorkTimeRec.Views
             }
         }
 
-        private void その他のボタン等の作業中を解除(ToggleButton clickedButton)
+        private void 他を作業終了(ToggleButton clickedButton)
         {
             foreach (var b in _入力項目管理.Keys)
             {
@@ -337,8 +348,7 @@ namespace WorkTimeRec.Views
                     continue;
                 }
 
-                var t = _times.FirstOrDefault(
-                    x =>
+                var t = _times.FirstOrDefault(x =>
                     x.Index == ボタン番号取得(b) &&
                     x.終了 == DateTime.MinValue &&
                     x.作業内容 == 作業内容取得(b));
@@ -367,8 +377,7 @@ namespace WorkTimeRec.Views
         private void 作業終了時の作業時間情報更新(int idx, string work)
         {
             // 作業終了の情報更新
-            var t = _times.FirstOrDefault(
-                x =>
+            var t = _times.FirstOrDefault(x =>
                 x.Index == idx &&
                 x.終了 == DateTime.MinValue &&
                 x.作業内容 == work);
@@ -410,8 +419,6 @@ namespace WorkTimeRec.Views
             if (window.ShowDialog() == true)
             {
                 _設定 = window.設定内容;
-
-                //TODO
             }
             Opacity = 1.0;
         }
@@ -425,6 +432,11 @@ namespace WorkTimeRec.Views
         {
             try
             {
+                if (!Directory.Exists(_timesFile.格納フォルダパス))
+                {
+                    メッセージボックス.警告("まだログフォルダは存在しません。");
+                    return;
+                }
                 シェル操作.実行(_timesFile.格納フォルダパス);
             }
             catch (Exception ex)
@@ -450,12 +462,10 @@ namespace WorkTimeRec.Views
         /// <param name="e"></param>
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_設定?.作業終了の確認 == true)
+            if (_設定?.作業終了の確認 == true ||
+                メッセージボックス.確認("すべての作業を終了しますか？") != MessageBoxResult.Yes)
             {
-                if (メッセージボックス.確認("すべての作業を終了しますか？") != MessageBoxResult.Yes)
-                {
-                    return;
-                }
+                return;
             }
 
             全ボタンOFF();
