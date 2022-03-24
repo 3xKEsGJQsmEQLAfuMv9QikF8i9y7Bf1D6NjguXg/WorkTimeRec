@@ -55,9 +55,6 @@ namespace WorkTimeRec.データ型
             }
         }
 
-        public TimeSpan 作業時間
-        {
-            get => 終了 - 開始;
-        }
+        public TimeSpan 作業時間 => 終了 - 開始;
     }
 }
