@@ -202,7 +202,7 @@ namespace WorkTimeRec.Views
             {
                 return;
             }
-            
+
             if (btn.IsChecked == true &&
                 e != _uiReactionSuppressEventArgs &&
                 string.IsNullOrEmpty(_入力項目管理[btn].Text))
@@ -273,10 +273,14 @@ namespace WorkTimeRec.Views
             }
         }
 
+        private bool 作業中状態()
+        {
+            return _入力項目管理.Any(x => x.Key.IsChecked == true);
+        }
+
         private void 作業終了(ToggleButton btn, int idx, string work)
         {
-            bool 作業中あり = _入力項目管理.Any(x => x.Key.IsChecked == true);
-            if (!作業中あり)
+            if (!作業中状態())
             {
                 タスクバー状態設定(処理開始: false);
                 IsParallelWork.IsEnabled = true;
@@ -462,10 +466,12 @@ namespace WorkTimeRec.Views
         /// <param name="e"></param>
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_設定?.作業終了の確認 == true ||
-                メッセージボックス.確認("すべての作業を終了しますか？") != MessageBoxResult.Yes)
+            if (_設定?.作業終了の確認 == true)
             {
-                return;
+                if (メッセージボックス.確認("すべての作業を終了しますか？") != MessageBoxResult.Yes)
+                {
+                    return;
+                }
             }
 
             全ボタンOFF();
