@@ -22,6 +22,12 @@ namespace WorkTimeRec.Views
             設定内容を画面に適用();
         }
 
+        public void 参照モードON()
+        {
+            MainContainer.IsEnabled = false;
+            OkButton.IsEnabled = false;
+        }
+
         private void 設定内容を画面に適用()
         {
             switch (設定内容.タスクバーアイコン)
@@ -34,6 +40,21 @@ namespace WorkTimeRec.Views
                     break;
                 case 作業中タスクバーアイコン.アニメーション:
                     TbIconAnimation.IsChecked = true;
+                    break;
+                default:
+                    break;
+            }
+
+            switch (設定内容.タスクバー色)
+            {
+                case 作業中タスクバー色.通常の色:
+                    TbIconFixedG.IsChecked = true;
+                    break;
+                case 作業中タスクバー色.黄色:
+                    TbIconFixedY.IsChecked = true;
+                    break;
+                case 作業中タスクバー色.赤色:
+                    TbIconFixedR.IsChecked = true;
                     break;
                 default:
                     break;
@@ -64,6 +85,7 @@ namespace WorkTimeRec.Views
             設定内容 = 設定内容 with
             {
                 タスクバーアイコン = 作業中のタスクバーアイコン画面設定値,
+                タスクバー色 = 作業中のタスクバー色画面設定値,
                 コンボボックス状態 = 作業中のコンボボックス状態画面設定値,
                 起動時に作業コンボボックスのテキスト設定 = RestoreComboText.IsChecked == true,
                 並行作業保存 = ParallelSave.IsChecked == true,
@@ -93,6 +115,25 @@ namespace WorkTimeRec.Views
                 else
                 {
                     return 設定ファイル.GetEnum<作業中タスクバーアイコン>(0);
+                }
+            }
+        }
+
+        private 作業中タスクバー色 作業中のタスクバー色画面設定値
+        {
+            get
+            {
+                if (TbIconFixedY.IsChecked == true)
+                {
+                    return 設定ファイル.GetEnum<作業中タスクバー色>(1);
+                }
+                else if (TbIconFixedR.IsChecked == true)
+                {
+                    return 設定ファイル.GetEnum<作業中タスクバー色>(2);
+                }
+                else
+                {
+                    return 設定ファイル.GetEnum<作業中タスクバー色>(0);
                 }
             }
         }

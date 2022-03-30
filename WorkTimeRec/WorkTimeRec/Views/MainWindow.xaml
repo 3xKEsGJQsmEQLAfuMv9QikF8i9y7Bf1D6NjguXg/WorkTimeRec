@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:WorkTimeRec"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="作業時間記録"
-    Width="700"
+    Width="800"
     Height="500"
     MinWidth="380"
     MinHeight="300"
@@ -23,7 +23,7 @@
         <TaskbarItemInfo
             x:Name="TaskbarInfo"
             ProgressState="None"
-            ProgressValue="100" />
+            ProgressValue="1.0" />
     </Window.TaskbarItemInfo>
 
     <Grid>
@@ -155,37 +155,65 @@
             d:Opacity="0.9"
             Background="Gray"
             BorderThickness="0"
+            ContextMenuOpening="TimeList_ContextMenuOpening"
             FontFamily="Cascadia Code, Consolas"
             Foreground="White"
             ItemsSource="{Binding Mode=OneWay}"
             Opacity="0.1"
+            ScrollViewer.HorizontalScrollBarVisibility="Hidden"
             SizeChanged="TimeList_SizeChanged">
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem
+                        x:Name="MenuMerge"
+                        Click="ListMenuItem_Click"
+                        Header="マージ(_M)"
+                        Tag="MG" />
+                    <MenuItem
+                        x:Name="MenuDelete"
+                        Click="ListMenuItem_Click"
+                        Header="削除(_D)"
+                        Tag="DEL" />
+                    <Separator />
+                    <MenuItem
+                        x:Name="MenuSaveLogAndClearList"
+                        Click="ListMenuItem_Click"
+                        Header="ログに保存して一覧クリア(_S)"
+                        Tag="SV" />
+                </ContextMenu>
+            </ListView.ContextMenu>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="75" Header="開始">
                         <GridViewColumn.DisplayMemberBinding>
-                            <Binding Converter="{StaticResource DateTimeConv}" Path="開始" />
+                            <Binding
+                                Converter="{StaticResource DateTimeConv}"
+                                Mode="OneWay"
+                                Path="開始" />
                         </GridViewColumn.DisplayMemberBinding>
                     </GridViewColumn>
 
                     <GridViewColumn Width="75" Header="終了">
                         <GridViewColumn.DisplayMemberBinding>
-                            <Binding Converter="{StaticResource DateTimeConv}" Path="終了" />
+                            <Binding
+                                Converter="{StaticResource DateTimeConv}"
+                                Mode="OneWay"
+                                Path="終了" />
                         </GridViewColumn.DisplayMemberBinding>
                     </GridViewColumn>
 
                     <GridViewColumn Width="75" Header="作業時間">
                         <GridViewColumn.DisplayMemberBinding>
                             <MultiBinding Converter="{StaticResource TimeSpanConv}">
-                                <Binding Path="終了" />
-                                <Binding Path="作業時間" />
+                                <Binding Mode="OneWay" Path="終了" />
+                                <Binding Mode="OneWay" Path="作業時間" />
                             </MultiBinding>
                         </GridViewColumn.DisplayMemberBinding>
                     </GridViewColumn>
 
                     <GridViewColumn
                         Width="250"
-                        DisplayMemberBinding="{Binding 作業内容}"
+                        DisplayMemberBinding="{Binding 作業内容, Mode=OneWay}"
                         Header="作業内容" />
                 </GridView>
             </ListView.View>
@@ -202,7 +230,7 @@
                 Click="SettingsButton_Click"
                 Content="⚙ 設定"
                 Style="{StaticResource CommandButtonStyle}"
-                ToolTip="設定画面を開きます。" />
+                ToolTip="設定画面を開きます。（Ctrl + ,）" />
 
             <StackPanel
                 Grid.Column="1"
@@ -214,7 +242,14 @@
                     Click="LogButton_Click"
                     Content="📂 ログフォルダ"
                     Style="{StaticResource CommandButtonStyle}"
-                    ToolTip="ログフォルダを開きます。" />
+                    ToolTip="ログフォルダを開きます。（Ctrl + L）" />
+
+                <Button
+                    x:Name="HistoryButton"
+                    Click="HistoryButton_Click"
+                    Content="📄作業履歴"
+                    Style="{StaticResource CommandButtonStyle}"
+                    ToolTip="作業履歴の一覧を表示します。（Ctrl + H）" />
 
                 <Button
                     x:Name="ClearButton"
@@ -235,14 +270,29 @@
                     Content="⏹ 作業終了(Esc)"
                     IsCancel="True"
                     Style="{StaticResource CommandButtonStyle}"
-                    ToolTip="作業中になっているものを一括終了させます。">
+                    ToolTip="作業中になっているものを一括終了させます。（Esc）">
                     <Button.IsEnabled>
                         <MultiBinding Converter="{StaticResource BoolsToBoolConv}">
-                            <Binding ElementName="StartButton1" Path="IsChecked" />
-                            <Binding ElementName="StartButton2" Path="IsChecked" />
-                            <Binding ElementName="StartButton3" Path="IsChecked" />
-                            <Binding ElementName="StartButton4" Path="IsChecked" />
-                            <Binding ElementName="StartButton5" Path="IsChecked" />
+                            <Binding
+                                ElementName="StartButton1"
+                                Mode="OneWay"
+                                Path="IsChecked" />
+                            <Binding
+                                ElementName="StartButton2"
+                                Mode="OneWay"
+                                Path="IsChecked" />
+                            <Binding
+                                ElementName="StartButton3"
+                                Mode="OneWay"
+                                Path="IsChecked" />
+                            <Binding
+                                ElementName="StartButton4"
+                                Mode="OneWay"
+                                Path="IsChecked" />
+                            <Binding
+                                ElementName="StartButton5"
+                                Mode="OneWay"
+                                Path="IsChecked" />
                         </MultiBinding>
                     </Button.IsEnabled>
                 </Button>

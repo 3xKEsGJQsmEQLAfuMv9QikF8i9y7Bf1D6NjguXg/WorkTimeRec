@@ -6,12 +6,12 @@
     xmlns:local="clr-namespace:WorkTimeRec.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="設定"
-    Width="400"
-    Height="350"
+    Width="550"
+    Height="450"
     MinWidth="250"
     MinHeight="250"
     MaxWidth="1000"
-    MaxHeight="600"
+    MaxHeight="650"
     FocusManager.FocusedElement="{Binding ElementName=TbIconNormal}"
     Loaded="Window_Loaded"
     ResizeMode="CanResizeWithGrip"
@@ -37,20 +37,43 @@
             BorderBrush="DodgerBlue"
             BorderThickness="1" />
 
-        <StackPanel>
+        <StackPanel x:Name="MainContainer">
             <GroupBox Header="作業中のタスクバーアイコン">
-                <StackPanel Orientation="Horizontal">
+                <StackPanel>
                     <RadioButton
                         x:Name="TbIconNormal"
+                        Margin="10,10,10,0"
                         Content="通常"
                         GroupName="tbar"
                         IsChecked="True" />
+
                     <RadioButton
                         x:Name="TbIconFixedProgress"
+                        Margin="10,10,10,0"
                         Content="進捗固定"
                         GroupName="tbar" />
+                    <StackPanel Margin="25,0,0,0" Orientation="Horizontal">
+                        <RadioButton
+                            x:Name="TbIconFixedG"
+                            Content="標準の色"
+                            GroupName="tbar2"
+                            IsChecked="True"
+                            IsEnabled="{Binding IsChecked, ElementName=TbIconFixedProgress, Mode=OneWay}" />
+                        <RadioButton
+                            x:Name="TbIconFixedY"
+                            Content="黄色"
+                            GroupName="tbar2"
+                            IsEnabled="{Binding IsChecked, ElementName=TbIconFixedProgress, Mode=OneWay}" />
+                        <RadioButton
+                            x:Name="TbIconFixedR"
+                            Content="赤色"
+                            GroupName="tbar2"
+                            IsEnabled="{Binding IsChecked, ElementName=TbIconFixedProgress, Mode=OneWay}" />
+                    </StackPanel>
+
                     <RadioButton
                         x:Name="TbIconAnimation"
+                        Margin="10,0,10,10"
                         Content="アニメーション"
                         GroupName="tbar" />
                 </StackPanel>
