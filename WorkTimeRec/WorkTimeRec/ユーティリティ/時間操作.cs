@@ -51,5 +51,8 @@ namespace WorkTimeRec.ユーティリティ
                     : dt.ToString("HHmm", CultureInfo.InvariantCulture);
             }
         }
+
+        public static DateTime 秒まで(DateTime value) => 
+            value.AddTicks(-(value.Ticks % TimeSpan.FromSeconds(1).Ticks));
     }
 }

@@ -4,6 +4,9 @@ namespace WorkTimeRec.ユーティリティ
 {
     internal class メッセージボックス
     {
+        public static MessageBoxResult 情報(string メッセージ) =>
+            MessageBox.Show(メッセージ, "情報", MessageBoxButton.OK, MessageBoxImage.Information);
+
         public static MessageBoxResult エラー(string メッセージ) =>
             MessageBox.Show(メッセージ, "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
 
