@@ -15,9 +15,11 @@
                 <ResourceDictionary Source="/Views/Styles/CheckBox.xaml" />
                 <ResourceDictionary Source="/Views/Styles/ComboBox.xaml" />
                 <ResourceDictionary Source="/Views/Styles/GroupBox.xaml" />
+                <ResourceDictionary Source="/Views/Styles/ListBox.xaml" />
                 <ResourceDictionary Source="/Views/Styles/ListView.xaml" />
                 <ResourceDictionary Source="/Views/Styles/ProgressBar.xaml" />
                 <ResourceDictionary Source="/Views/Styles/RadioButton.xaml" />
+                <ResourceDictionary Source="/Views/Styles/TextBox.xaml" />
                 <ResourceDictionary Source="/Views/Styles/ToggleButton.xaml" />
 
                 <!--  コンバーター  -->

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using System.Windows;
+using WorkTimeRec.ユーティリティ;
 
 namespace WorkTimeRec
 {
@@ -46,6 +48,25 @@ namespace WorkTimeRec
         private void Application_SessionEnding(object sender, SessionEndingCancelEventArgs e)
         {
             TerminateProc?.Invoke();
+        }
+
+        public static bool インストール先チェック()
+        {
+            if (パス操作.アプリパスチェック())
+            {
+                return true;
+            }
+
+            メッセージボックス.警告("管理者権限が必要な場所へはインストールしないでください。");
+
+            if (メッセージボックス.確認("お勧めのインストール先フォルダーを作成しますか？") == MessageBoxResult.Yes)
+            {
+                string path = パス操作.推奨インストールパス取得();
+                Directory.CreateDirectory(path);
+                シェル操作.実行(path);
+            }
+
+            return false;
         }
 
     }
