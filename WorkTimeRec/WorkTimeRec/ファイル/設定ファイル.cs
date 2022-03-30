@@ -13,6 +13,7 @@ namespace WorkTimeRec.ファイル
 
             var cfgData = new 設定(
                 タスクバーアイコン: GetEnum<作業中タスクバーアイコン>(GetInt(cfg.AppSettings.Settings["TaskbarIcon"].Value, 0)),
+                タスクバー色: GetEnum<作業中タスクバー色>(GetInt(cfg.AppSettings.Settings["TaskbarColor"].Value, 0)),
                 コンボボックス状態: GetEnum<作業中コンボボックス状態>(GetInt(cfg.AppSettings.Settings["WorkingComboState"].Value, 0)),
                 起動時に作業コンボボックスのテキスト設定: GetBool(cfg.AppSettings.Settings["RestoreComboText"].Value, true),
                 並行作業保存: GetBool(cfg.AppSettings.Settings["ParallelSave"].Value, false),
@@ -29,6 +30,7 @@ namespace WorkTimeRec.ファイル
                 ConfigurationUserLevel.None);
             
             cfg.AppSettings.Settings["TaskbarIcon"].Value = ((int)cfgData.タスクバーアイコン).ToString();
+            cfg.AppSettings.Settings["TaskbarColor"].Value = ((int)cfgData.タスクバー色).ToString();
             cfg.AppSettings.Settings["WorkingComboState"].Value = ((int)cfgData.コンボボックス状態).ToString();
             cfg.AppSettings.Settings["RestoreComboText"].Value = cfgData.起動時に作業コンボボックスのテキスト設定.ToString();
             cfg.AppSettings.Settings["ParallelSave"].Value = cfgData.並行作業保存.ToString();
