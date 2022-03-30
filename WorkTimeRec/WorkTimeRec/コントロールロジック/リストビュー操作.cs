@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace WorkTimeRec.コントロールロジック
@@ -15,12 +16,12 @@ namespace WorkTimeRec.コントロールロジック
 
         public static void サイズ変更(object sender, SizeChangedEventArgs e)
         {
-            if (!(sender is ListView lv))
+            if (sender is not ListView lv)
             {
                 return;
             }
 
-            if (!(lv.View is GridView v))
+            if (lv.View is not GridView v)
             {
                 return;
             }
@@ -39,6 +40,30 @@ namespace WorkTimeRec.コントロールロジック
             }
             v.Columns[3].Width = w;
         }
+
+        public static void 最下行にスクロール(ListView target)
+        {
+            target.ScrollIntoView(target.Items.GetItemAt(target.Items.Count - 1));
+        }
+
+        public static void リスト選択項目削除<T>(
+            System.Collections.IList selectedList,
+            ObservableCollection<T> editDataList)
+        {
+            if (selectedList.Count < 1)
+            {
+                return;
+            }
+
+            var removeList = new T[selectedList.Count];
+            selectedList.CopyTo(removeList, 0);
+
+            foreach (var item in removeList)
+            {
+                editDataList.Remove(item);
+            }
+        }
+
     }
 
 }
