@@ -1,16 +1,20 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using WorkTimeRec.ユーティリティ;
 
 namespace WorkTimeRec.データ型
 {
-    internal class 作業時間管理 : INotifyPropertyChanged
+    public class 作業時間管理 : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         private void RaisePropertyChanged([CallerMemberName] string? propertyName = null)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        public int Index { get; set; }
+        /// <summary>
+        /// 1～5
+        /// </summary>
+        public int No { get; set; }
 
         private string _作業内容 = "";
         public string 作業内容
@@ -55,6 +59,7 @@ namespace WorkTimeRec.データ型
             }
         }
 
-        public TimeSpan 作業時間 => 終了 - 開始;
+        public TimeSpan 作業時間 => 
+            時間操作.秒まで(終了) - 時間操作.秒まで(開始);
     }
 }
