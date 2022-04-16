@@ -26,7 +26,6 @@ namespace WorkTimeRec.Views
         private const string WorkingBtnText = "作業中・・・";
         private static readonly int MinWorkIndex = 1;
         private static readonly int MaxWorkIndex = 5;
-
         private static readonly RoutedEventArgs _uiReactionSuppressEventArgs = new();
         private static readonly RoutedEventArgs _otherRoutedEventArgs = new();
 
@@ -35,16 +34,23 @@ namespace WorkTimeRec.Views
         private readonly 作業時間ファイル _timesFile = new(パス操作.ベースパス);
         private readonly 処理制御 _終了処理;
         private 設定? _設定;
+        private readonly 通知タイマー _notifyTimer;
         private static WorkHistoryWindow? _workHistoryWindow = null;
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
         public MainWindow()
         {
+            _notifyTimer = new 通知タイマー(NotifyTimer_Tick);
             InitializeComponent();
 
             _終了処理 = new 処理制御(() =>
             {
                 全ボタンOFF();
                 作業時間ファイル保存();
+                _notifyTimer.Dispose();
+
                 if (_設定 is not null)
                 {
                     _設定 = _設定 with { 並行作業 = IsParallelWork.IsChecked == true };
@@ -59,6 +65,22 @@ namespace WorkTimeRec.Views
                 }
             });
             App.Current.TerminateProc = 終了処理;
+        }
+
+        private void NotifyTimer_Tick(string msg)
+        {
+            var window = new NotifyWindow
+            {
+                Owner = this,
+                Message = msg
+            };
+            window.StopButton.IsEnabled = StopButton.IsEnabled;
+
+            // 「作業終了」選択時の処理（ここでは終了確認ダイアログは出さない）。
+            window.StopAction = () => 全ボタンOFF();
+
+            // メッセージ表示
+            window.ShowDialog();
         }
 
         private void Window_Initialized(object sender, EventArgs e)
@@ -137,6 +159,7 @@ namespace WorkTimeRec.Views
             if (window.ShowDialog() == true)
             {
                 _設定 = window.設定内容;
+                _notifyTimer.通知情報設定(_設定.通知);
             }
             Opacity = 1.0;
         }
@@ -173,8 +196,10 @@ namespace WorkTimeRec.Views
             Opacity = 0.5;
             if (_workHistoryWindow is null)
             {
-                _workHistoryWindow = new WorkHistoryWindow();
-                _workHistoryWindow.Owner = this;
+                _workHistoryWindow = new WorkHistoryWindow
+                {
+                    Owner = this
+                };
             }
 
             _workHistoryWindow.SetHistory(new ComboBox[] { WorkContent1, WorkContent2, WorkContent3, WorkContent4, WorkContent5 });
@@ -435,6 +460,8 @@ namespace WorkTimeRec.Views
             {
                 IsParallelWork.IsChecked = 設定内容.並行作業;
             }
+
+            _notifyTimer.通知情報設定(設定内容.通知);
         }
 
         public void 終了処理()

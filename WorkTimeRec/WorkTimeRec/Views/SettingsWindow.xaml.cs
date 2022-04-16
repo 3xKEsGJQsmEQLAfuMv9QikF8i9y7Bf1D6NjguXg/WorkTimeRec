@@ -1,6 +1,11 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using WorkTimeRec.データ型;
 using WorkTimeRec.ファイル;
+using WorkTimeRec.ユーティリティ;
 
 namespace WorkTimeRec.Views
 {
@@ -75,6 +80,27 @@ namespace WorkTimeRec.Views
                     break;
             }
 
+            for (int i = 0; i < 設定内容.通知.Length; i++)
+            {
+                var chk = NotifyContainer.FindName($"NotifyEnabled{i+1}") as CheckBox;
+                if (chk is not null)
+                {
+                    chk.IsChecked = 設定内容.通知[i].通知表示;
+                }
+
+                var time = NotifyContainer.FindName($"NotifyTime{i+1}") as Controls.TimeTextBox;
+                if (time is not null)
+                {
+                    time.SetTime(設定内容.通知[i].通知時刻);
+                }
+
+                var txt = NotifyContainer.FindName($"NotifyMsg{i+1}") as Controls.SimpleTextBox;
+                if (txt is not null)
+                {
+                    txt.Text = 設定内容.通知[i].メッセージ;
+                }
+            }
+
             RestoreComboText.IsChecked = 設定内容.起動時に作業コンボボックスのテキスト設定;
             ParallelSave.IsChecked = 設定内容.並行作業保存;
             ConfirmStop.IsChecked = 設定内容.作業終了の確認;
@@ -82,6 +108,11 @@ namespace WorkTimeRec.Views
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!入力内容OK())
+            {
+                return;
+            }
+
             設定内容 = 設定内容 with
             {
                 タスクバーアイコン = 作業中のタスクバーアイコン画面設定値,
@@ -90,9 +121,65 @@ namespace WorkTimeRec.Views
                 起動時に作業コンボボックスのテキスト設定 = RestoreComboText.IsChecked == true,
                 並行作業保存 = ParallelSave.IsChecked == true,
                 作業終了の確認 = ConfirmStop.IsChecked == true,
+                通知 = new 通知情報[]
+                {
+                    new(
+                        NotifyEnabled1.IsChecked == true,
+                        NotifyTime1.GetTime(),
+                        NotifyMsg1.Text),
+                    new(
+                        NotifyEnabled2.IsChecked == true,
+                        NotifyTime2.GetTime(),
+                        NotifyMsg2.Text),
+                    new(
+                        NotifyEnabled3.IsChecked == true,
+                        NotifyTime3.GetTime(),
+                        NotifyMsg3.Text),
+                }
             };
 
             DialogResult = true;
+        }
+
+        private bool 入力内容OK()
+        {
+            bool result = true;
+            List<DateTime> times = new();
+
+            for (int i = 0; i < 設定内容.通知.Length; i++)
+            {
+                if (NotifyContainer.FindName($"NotifyEnabled{i + 1}") is not CheckBox chk ||
+                    chk.IsChecked != true)
+                {
+                    continue;
+                }
+
+                if (NotifyContainer.FindName($"NotifyTime{i + 1}") is not Controls.TimeTextBox time)
+                {
+                    continue;
+                }
+                times.Add(time.GetTime());
+
+                if (NotifyContainer.FindName($"NotifyMsg{i + 1}") is not Controls.SimpleTextBox txt)
+                {
+                    continue;
+                }
+
+                if (string.IsNullOrEmpty(txt.Text))
+                {
+                    メッセージボックス.エラー("メッセージ内容を入力してください。");
+                    result = false;
+                    break;
+                }
+            }
+
+            if (times.Count != times.GroupBy(x => x).Count())
+            {
+                メッセージボックス.エラー("時刻が重複しています。");
+                result = false;
+            }
+
+            return result;
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

@@ -247,7 +247,7 @@
                 <Button
                     x:Name="HistoryButton"
                     Click="HistoryButton_Click"
-                    Content="📄作業履歴"
+                    Content="📄 作業履歴"
                     Style="{StaticResource CommandButtonStyle}"
                     ToolTip="作業履歴の一覧を表示します。（Ctrl + H）" />
 
