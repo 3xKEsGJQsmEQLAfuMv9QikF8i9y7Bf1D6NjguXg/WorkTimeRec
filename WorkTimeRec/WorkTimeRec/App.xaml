@@ -19,7 +19,9 @@
                 <ResourceDictionary Source="/Views/Styles/ListView.xaml" />
                 <ResourceDictionary Source="/Views/Styles/ProgressBar.xaml" />
                 <ResourceDictionary Source="/Views/Styles/RadioButton.xaml" />
+                <ResourceDictionary Source="/Views/Styles/TextBlock.xaml" />
                 <ResourceDictionary Source="/Views/Styles/TextBox.xaml" />
+                <ResourceDictionary Source="/Views/Styles/TimeTextBox.xaml" />
                 <ResourceDictionary Source="/Views/Styles/ToggleButton.xaml" />
 
                 <!--  コンバーター  -->
