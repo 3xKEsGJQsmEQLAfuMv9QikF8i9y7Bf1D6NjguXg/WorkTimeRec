@@ -1,4 +1,7 @@
-﻿namespace WorkTimeRec.データ型
+﻿using System;
+using System.Collections.Generic;
+
+namespace WorkTimeRec.データ型
 {
     public record 設定(
         作業中タスクバーアイコン タスクバーアイコン,
@@ -7,8 +10,9 @@
         bool 起動時に作業コンボボックスのテキスト設定,
         bool 並行作業保存,
         bool 並行作業,
-        bool 作業終了の確認
-        );
+        bool 作業終了の確認,
+        通知情報[] 通知
+    );
 
     public enum 作業中タスクバーアイコン
     {
@@ -30,5 +34,11 @@
         色付け = 1,
         アニメーション = 2,
     }
+
+    public record 通知情報(
+        bool 通知表示,
+        DateTime 通知時刻,
+        string メッセージ
+    );
 
 }
