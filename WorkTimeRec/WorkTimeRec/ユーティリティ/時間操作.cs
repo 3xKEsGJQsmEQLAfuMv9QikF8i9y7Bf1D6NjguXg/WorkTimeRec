@@ -54,5 +54,36 @@ namespace WorkTimeRec.ユーティリティ
 
         public static DateTime 秒まで(DateTime value) => 
             value.AddTicks(-(value.Ticks % TimeSpan.FromSeconds(1).Ticks));
+
+        public static bool 時として正しい(string value)
+        {
+            if (!int.TryParse(value, out int i))
+            {
+                return false;
+            }
+
+            if (0 <= i && i <= 23)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool 分として正しい(string value)
+        {
+            if (!int.TryParse(value, out int i))
+            {
+                return false;
+            }
+
+            if (0 <= i && i <= 59)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
     }
 }
