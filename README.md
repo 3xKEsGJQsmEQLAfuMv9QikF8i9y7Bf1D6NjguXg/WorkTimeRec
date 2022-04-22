@@ -1,3 +1,16 @@
+- [WorkTimeRec](https://github.com/3xKEsGJQsmEQLAfuMv9QikF8i9y7Bf1D6NjguXg/WorkTimeRec#worktimerec)
+- [動作環境](https://github.com/3xKEsGJQsmEQLAfuMv9QikF8i9y7Bf1D6NjguXg/WorkTimeRec#%E5%8B%95%E4%BD%9C%E7%92%B0%E5%A2%83)
+- [インストール](https://github.com/3xKEsGJQsmEQLAfuMv9QikF8i9y7Bf1D6NjguXg/WorkTimeRec#%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)
+- [バージョンアップ](https://github.com/3xKEsGJQsmEQLAfuMv9QikF8i9y7Bf1D6NjguXg/WorkTimeRec#%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E3%82%A2%E3%83%83%E3%83%97)
+- [アンインストール](https://github.com/3xKEsGJQsmEQLAfuMv9QikF8i9y7Bf1D6NjguXg/WorkTimeRec#%E3%82%A2%E3%83%B3%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)
+- [使い方](https://github.com/3xKEsGJQsmEQLAfuMv9QikF8i9y7Bf1D6NjguXg/WorkTimeRec#%E4%BD%BF%E3%81%84%E6%96%B9)
+  - [基本的な使い方](https://github.com/3xKEsGJQsmEQLAfuMv9QikF8i9y7Bf1D6NjguXg/WorkTimeRec#%E5%9F%BA%E6%9C%AC%E7%9A%84%E3%81%AA%E4%BD%BF%E3%81%84%E6%96%B9)
+  - [ボタン説明](https://github.com/3xKEsGJQsmEQLAfuMv9QikF8i9y7Bf1D6NjguXg/WorkTimeRec#%E3%83%9C%E3%82%BF%E3%83%B3%E8%AA%AC%E6%98%8E)
+  - [作業時間一覧の編集](https://github.com/3xKEsGJQsmEQLAfuMv9QikF8i9y7Bf1D6NjguXg/WorkTimeRec#%E4%BD%9C%E6%A5%AD%E6%99%82%E9%96%93%E4%B8%80%E8%A6%A7%E3%81%AE%E7%B7%A8%E9%9B%86)
+  - [設定画面](https://github.com/3xKEsGJQsmEQLAfuMv9QikF8i9y7Bf1D6NjguXg/WorkTimeRec#%E8%A8%AD%E5%AE%9A%E7%94%BB%E9%9D%A2)
+  - [作業履歴画面](https://github.com/3xKEsGJQsmEQLAfuMv9QikF8i9y7Bf1D6NjguXg/WorkTimeRec#%E4%BD%9C%E6%A5%AD%E5%B1%A5%E6%AD%B4%E7%94%BB%E9%9D%A2)
+- [出力ファイル](https://github.com/3xKEsGJQsmEQLAfuMv9QikF8i9y7Bf1D6NjguXg/WorkTimeRec#%E5%87%BA%E5%8A%9B%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB)
+
 # 🟦WorkTimeRec
 
 作業時間記録ツール
@@ -64,19 +77,19 @@ zipを展開し、展開ファイルを前回配置場所に上書きコピー�
 
 ## 💠ボタン説明
 
-設定ボタンは設定画面を表示する。ショートカットキーは`Ctrl` + `,`。
+設定ボタンは設定画面を表示する。ショートカットキーは`Ctrl`+`,`。
 
-ログフォルダボタンは作業時間ログが出力されるフォルダをエクスプローラーで開く。ショートカットキーは`Ctrl` + `L`。
+ログフォルダボタンは作業時間ログが出力されるフォルダをエクスプローラーで開く。ショートカットキーは`Ctrl`+`L`。
 
-作業履歴ボタンは作業コンボボックスの履歴を一覧表示する画面を表示する。ショートカットキーは`Ctrl` + `H`。
+作業履歴ボタンは作業コンボボックスの履歴を一覧表示する画面を表示する。ショートカットキーは`Ctrl`+`H`。
 
-作業クリアボタンは全コンボボックスのテキスト入力部分をクリアする。
+作業クリアボタンはすべての作業コンボボックスのテキスト入力部分をクリアする。
 
 作業終了ボタンは作業中状態を一括終了させる。
 
 ## 💠作業時間一覧の編集
 
-作業時間一覧で行を選択し、右クリックでマージ、削除、ログファイルに出力して一覧クリアができる。
+作業中の項目がないときに作業時間一覧で行を選択し、右クリックでマージ、削除、ログファイルに出力して一覧クリアができる。
 
 **マージ**は2つ以上選択状態にして実行する。同じ作業内容 かつ 終了時間から次の開始時間までの間が2分以内のときに1つにまとめることができる。
 複数選択は1つ目の行をクリックし、2つ目以降は`Ctrl`を押しながらクリックする。連続した範囲を一括で選択する場合は、範囲の開始行をクリック後、終了行を`Shift`を押しながらクリックする。
@@ -117,9 +130,14 @@ zipを展開し、展開ファイルを前回配置場所に上書きコピー�
 ⏱ボタンは入力補助。
 
 #### 「時」入力補助
+押したボタンの数値がテキストボックスに入力される。
+現在時のボタンは背景色が他と変わる。
+
 ![image5_2](https://user-images.githubusercontent.com/99333667/163673457-9fe62727-ed6f-4b6a-b102-ec6f4e8516a4.png)
 
 #### 「分」入力補助
+押したボタンの数値がテキストボックスに入力される。
+
 ![image5_3](https://user-images.githubusercontent.com/99333667/163673391-fb1fe654-53d1-475f-96b9-42db85ddd1d1.png)
 
 #### 表示メッセージ例
@@ -147,10 +165,10 @@ zipを展開し、展開ファイルを前回配置場所に上書きコピー�
 
 # 🟦出力ファイル
 
-作業内容のコンボボックスに入力したものは、「開始」ボタンを押したタイミングで`WorkTimeRec.exe`と同じ場所に`WorkList*.txt`というファイル名で出力/更新され、
+作業内容のコンボボックスに入力したものは、「開始」ボタンを押したタイミングで`WorkTimeRec.exe`と同じ場所に`WorkList1.txt`～`WorkList5.txt`というファイル名で出力/更新され、
 次回アプリケーション起動時にコンボボックスの選択肢として読み込まれる。
 
 作業時間一覧情報は、アプリ終了時に`WorkTimeRec.exe`と同じ場所に`Record`という名前でフォルダを作成し、
-その中に`yyyymmdd.log`のファイル名フォーマットのログに出力される。
-ファイル内容はタブ区切り形式で追記。
+その中に`yyyymmdd.log`のファイル名フォーマットのログに追記される。
+ファイル内容はタブ区切り形式。
 出力のみで、起動時にログファイルの内容が画面上に読み込まれることはない。
