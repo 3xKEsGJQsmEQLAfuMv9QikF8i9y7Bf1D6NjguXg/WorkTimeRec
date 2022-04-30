@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using WorkTimeRec.キーボード;
 using WorkTimeRec.ユーティリティ;
 
 namespace WorkTimeRec.Views.Controls
@@ -200,7 +198,7 @@ namespace WorkTimeRec.Views.Controls
             {
                 if (btn.Content.ToString() == h)
                 {
-                    btn.Tag = "1";
+                    btn.Tag = "ON";
                 }
                 else
                 {
@@ -211,24 +209,11 @@ namespace WorkTimeRec.Views.Controls
 
         private IEnumerable<Button> GetHButtons(DependencyObject obj)
         {
-            var children = Enumerable.Range(0, VisualTreeHelper.GetChildrenCount(obj))
-                .Select(idx => VisualTreeHelper.GetChild(obj, idx))
-                .Where(x => x is not null);
-
-            foreach (var child in children)
+            foreach (var pnl in コントロール操作.子取得<StackPanel>(obj))
             {
-                if (child is StackPanel pnl)
+                foreach (var btn in コントロール操作.子取得<Button>(pnl))
                 {
-                    var children2 = Enumerable.Range(0, VisualTreeHelper.GetChildrenCount(pnl))
-                        .Select(idx => VisualTreeHelper.GetChild(pnl, idx))
-                        .Where(x => x is not null);
-                    foreach (var obj2 in children2)
-                    {
-                        if (obj2 is Button btn)
-                        {
-                            yield return btn;
-                        }
-                    }
+                    yield return btn;
                 }
             }
         }

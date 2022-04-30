@@ -20,6 +20,11 @@ namespace WorkTimeRec.Views.Controls
             set { TextContent.Text = value; }
         }
 
+        public void Clear()
+        {
+            TextContent.Clear();
+        }
+
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (sender is not TextBox t)
@@ -43,6 +48,16 @@ namespace WorkTimeRec.Views.Controls
             }
             e.Handled = true;
             t.Focus();
+        }
+
+        private void Root_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextContent.Focus();
+        }
+
+        private void Root_Loaded(object sender, RoutedEventArgs e)
+        {
+            TextContent.Focus();
         }
     }
 }
