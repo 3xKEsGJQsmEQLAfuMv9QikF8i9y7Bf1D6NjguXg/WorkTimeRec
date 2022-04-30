@@ -8,7 +8,7 @@ namespace WorkTimeRec.ユーティリティ
         public static string ベースパス =>
             System.AppContext.BaseDirectory;
 
-        public static string フルパス取得(string ファイル名) =>
+        public static string ベースフルパス取得(string ファイル名) =>
             Path.Combine(ベースパス, ファイル名);
 
         public static bool アプリパスチェック()

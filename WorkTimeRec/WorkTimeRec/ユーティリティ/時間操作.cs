@@ -20,6 +20,17 @@ namespace WorkTimeRec.ユーティリティ
                 : dt.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
         }
 
+        public static string 月日と曜日文字列(DateTime dt)
+        {
+            if (dt == DateTime.MinValue)
+            {
+                return "";
+            }
+
+            return
+                $"{dt.ToString(@"MM\/dd", CultureInfo.InvariantCulture)}({dt:ddd})";
+        }
+
         public static string 時間間隔文字列(TimeSpan ts, bool zeroPadding = false)
         {
             if (ts == TimeSpan.MinValue ||
