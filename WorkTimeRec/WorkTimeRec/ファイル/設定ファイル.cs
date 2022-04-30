@@ -14,6 +14,7 @@ namespace WorkTimeRec.ファイル
             "RestoreComboText",
             "ParallelSave",
             "Parallel",
+            "ClearConfirm",
             "StopConfirm",
             "Notify1",
             "NotifyTime1",
@@ -24,6 +25,7 @@ namespace WorkTimeRec.ファイル
             "Notify3",
             "NotifyTime3",
             "NotifyMsg3",
+            "NotifySound",
         };
 
         public static 設定 読み込み()
@@ -40,6 +42,7 @@ namespace WorkTimeRec.ファイル
                 起動時に作業コンボボックスのテキスト設定: GetBool(cfg.AppSettings.Settings["RestoreComboText"].Value, true),
                 並行作業保存: GetBool(cfg.AppSettings.Settings["ParallelSave"].Value, false),
                 並行作業: GetBool(cfg.AppSettings.Settings["Parallel"].Value, false),
+                作業クリアの確認: GetBool(cfg.AppSettings.Settings["ClearConfirm"].Value, false),
                 作業終了の確認: GetBool(cfg.AppSettings.Settings["StopConfirm"].Value, false),
                 通知: new 通知情報[]
                 {
@@ -58,7 +61,8 @@ namespace WorkTimeRec.ファイル
                     GetDateTime(cfg.AppSettings.Settings["NotifyTime3"].Value, DateTime.MinValue),
                     cfg.AppSettings.Settings["NotifyMsg3"].Value
                     )
-                }
+                },
+                通知音: GetBool(cfg.AppSettings.Settings["NotifySound"].Value, false)
             );
 
             return cfgData;
@@ -82,7 +86,7 @@ namespace WorkTimeRec.ファイル
             }
             catch
             {
-                throw new FormatException($"キー「{key}」が見つかりません。");
+                throw new FormatException($"設定ファイルにキー「{key}」が見つかりません。");
             }
         }
 
@@ -97,6 +101,7 @@ namespace WorkTimeRec.ファイル
             cfg.AppSettings.Settings["RestoreComboText"].Value = cfgData.起動時に作業コンボボックスのテキスト設定.ToString();
             cfg.AppSettings.Settings["ParallelSave"].Value = cfgData.並行作業保存.ToString();
             cfg.AppSettings.Settings["Parallel"].Value = cfgData.並行作業.ToString();
+            cfg.AppSettings.Settings["ClearConfirm"].Value = cfgData.作業クリアの確認.ToString();
             cfg.AppSettings.Settings["StopConfirm"].Value = cfgData.作業終了の確認.ToString();
 
             for (int i = 0; i < cfgData.通知.Length; i++)
@@ -105,6 +110,8 @@ namespace WorkTimeRec.ファイル
                 cfg.AppSettings.Settings[$"NotifyTime{i+1}"].Value = cfgData.通知[i].通知時刻.ToString("HH:mm");
                 cfg.AppSettings.Settings[$"NotifyMsg{i+1}"].Value = cfgData.通知[i].メッセージ.ToString();
             }
+
+            cfg.AppSettings.Settings["NotifySound"].Value = cfgData.通知音.ToString();
 
             cfg.Save();
         }

@@ -21,11 +21,11 @@ namespace WorkTimeRec.ファイル
         {
             return index switch
             {
-                1 => パス操作.フルパス取得(App.WorkList1FileName),
-                2 => パス操作.フルパス取得(App.WorkList2FileName),
-                3 => パス操作.フルパス取得(App.WorkList3FileName),
-                4 => パス操作.フルパス取得(App.WorkList4FileName),
-                5 => パス操作.フルパス取得(App.WorkList5FileName),
+                1 => パス操作.ベースフルパス取得(App.WorkList1FileName),
+                2 => パス操作.ベースフルパス取得(App.WorkList2FileName),
+                3 => パス操作.ベースフルパス取得(App.WorkList3FileName),
+                4 => パス操作.ベースフルパス取得(App.WorkList4FileName),
+                5 => パス操作.ベースフルパス取得(App.WorkList5FileName),
                 _ => "",
             };
         }
