@@ -9,6 +9,7 @@
   - [作業時間一覧の編集](https://github.com/3xKEsGJQsmEQLAfuMv9QikF8i9y7Bf1D6NjguXg/WorkTimeRec#%E4%BD%9C%E6%A5%AD%E6%99%82%E9%96%93%E4%B8%80%E8%A6%A7%E3%81%AE%E7%B7%A8%E9%9B%86)
   - [設定画面](https://github.com/3xKEsGJQsmEQLAfuMv9QikF8i9y7Bf1D6NjguXg/WorkTimeRec#%E8%A8%AD%E5%AE%9A%E7%94%BB%E9%9D%A2)
   - [作業履歴画面](https://github.com/3xKEsGJQsmEQLAfuMv9QikF8i9y7Bf1D6NjguXg/WorkTimeRec#%E4%BD%9C%E6%A5%AD%E5%B1%A5%E6%AD%B4%E7%94%BB%E9%9D%A2)
+  - [作業履歴検索画面](https://github.com/3xKEsGJQsmEQLAfuMv9QikF8i9y7Bf1D6NjguXg/WorkTimeRec/blob/main/README.md#%E4%BD%9C%E6%A5%AD%E5%B1%A5%E6%AD%B4%E6%A4%9C%E7%B4%A2%E7%94%BB%E9%9D%A2)
 - [出力ファイル](https://github.com/3xKEsGJQsmEQLAfuMv9QikF8i9y7Bf1D6NjguXg/WorkTimeRec#%E5%87%BA%E5%8A%9B%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB)
 
 # 🟦WorkTimeRec
