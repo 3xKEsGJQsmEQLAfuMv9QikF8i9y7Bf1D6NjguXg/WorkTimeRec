@@ -8,15 +8,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="設定"
     Width="600"
-    Height="560"
+    Height="680"
     MinWidth="250"
     MinHeight="250"
     MaxWidth="1500"
-    MaxHeight="800"
+    MaxHeight="850"
     FocusManager.FocusedElement="{Binding ElementName=TbIconNormal}"
     Loaded="Window_Loaded"
     ResizeMode="CanResizeWithGrip"
-    ShowInTaskbar="False"
     WindowStartupLocation="CenterOwner"
     WindowStyle="ToolWindow"
     mc:Ignorable="d">
@@ -27,23 +26,17 @@
         </Style>
     </Window.Resources>
 
-    <Grid>
+    <Grid Style="{StaticResource BaseGridStyle}">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid.Background>
-            <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
-                <GradientStop Offset="0" Color="#4F4F4F" />
-                <GradientStop Offset="1" Color="#666666" />
-            </LinearGradientBrush>
-        </Grid.Background>
-
         <Border
             Grid.RowSpan="2"
             BorderBrush="DodgerBlue"
             BorderThickness="1" />
+
 
         <StackPanel x:Name="MainContainer">
             <GroupBox Header="作業中のタスクバーアイコン">
@@ -167,13 +160,39 @@
                             Grid.Column="2"
                             IsEnabled="{Binding ElementName=NotifyEnabled3, Path=IsChecked}" />
                     </Grid>
-                    <TextBlock Style="{StaticResource VSpacerStyle}" />
+
+                    <CheckBox
+                        x:Name="NotifySound"
+                        Margin="10,20,10,10"
+                        Content="メッセージ表示時、システムサウンドを鳴らす" />
                 </StackPanel>
             </GroupBox>
 
             <CheckBox x:Name="RestoreComboText" Content="起動時、作業コンボボックスに直近の作業内容を設定" />
             <CheckBox x:Name="ParallelSave" Content="「並行作業をする」のチェック状態を次回起動時も維持" />
+            <CheckBox x:Name="ConfirmClear" Content="「作業クリア」ボタンの実行前に確認" />
             <CheckBox x:Name="ConfirmStop" Content="「作業終了」ボタンの実行前に確認" />
+            <TextBlock Style="{StaticResource VSpacerStyle}" />
+
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    x:Name="LogDeleteButton"
+                    Margin="10"
+                    Padding="10,5"
+                    HorizontalAlignment="Left"
+                    Click="LogDeleteButton_Click"
+                    Content="古い作業時間ログ削除"
+                    IsEnabled="False" />
+
+                <Button
+                    x:Name="ItemHistoryDeleteButton"
+                    Margin="5,10,10,10"
+                    Padding="10,5"
+                    HorizontalAlignment="Left"
+                    Click="ItemHistoryDeleteButton_Click"
+                    Content="古い作業項目削除"
+                    IsEnabled="False" />
+            </StackPanel>
         </StackPanel>
 
         <StackPanel

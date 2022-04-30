@@ -18,6 +18,7 @@
     FontSize="18"
     MouseLeftButtonDown="Window_MouseLeftButtonDown"
     ResizeMode="CanResizeWithGrip"
+    ShowInTaskbar="False"
     Topmost="True"
     WindowStyle="None"
     mc:Ignorable="d">

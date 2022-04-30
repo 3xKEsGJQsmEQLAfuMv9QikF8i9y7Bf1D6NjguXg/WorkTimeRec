@@ -16,6 +16,7 @@
     Initialized="Window_Initialized"
     KeyDown="Window_KeyDown"
     Loaded="Window_Loaded"
+    PreviewKeyDown="Window_PreviewKeyDown"
     ResizeMode="CanResizeWithGrip"
     mc:Ignorable="d">
 
@@ -26,19 +27,12 @@
             ProgressValue="1.0" />
     </Window.TaskbarItemInfo>
 
-    <Grid>
+    <Grid Style="{StaticResource BaseGridStyle}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
-        <Grid.Background>
-            <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
-                <GradientStop Offset="0" Color="#4F4F4F" />
-                <GradientStop Offset="1" Color="#666666" />
-            </LinearGradientBrush>
-        </Grid.Background>
 
         <Border
             Grid.RowSpan="3"
@@ -227,6 +221,7 @@
 
             <Button
                 x:Name="SettingsButton"
+                Margin="10,10,10,18"
                 Click="SettingsButton_Click"
                 Content="⚙ 設定"
                 Style="{StaticResource CommandButtonStyle}"

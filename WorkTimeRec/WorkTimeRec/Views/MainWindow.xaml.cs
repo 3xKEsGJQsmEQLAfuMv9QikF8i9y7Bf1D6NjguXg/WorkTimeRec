@@ -36,6 +36,8 @@ namespace WorkTimeRec.Views
         private 設定? _設定;
         private readonly 通知タイマー _notifyTimer;
         private static WorkHistoryWindow? _workHistoryWindow = null;
+        private static SearchWindow? _searchWindow = null;
+        private ComboBox[] _workCombos = Array.Empty<ComboBox>();
 
         /// <summary>
         /// コンストラクタ
@@ -79,6 +81,10 @@ namespace WorkTimeRec.Views
             // 「作業終了」選択時の処理（ここでは終了確認ダイアログは出さない）。
             window.StopAction = () => 全ボタンOFF();
 
+            if (_設定?.通知音 == true)
+            {
+                System.Media.SystemSounds.Asterisk.Play();
+            }
             // メッセージ表示
             window.ShowDialog();
         }
@@ -101,6 +107,8 @@ namespace WorkTimeRec.Views
         {
             try
             {
+                _workCombos = new[] { WorkContent1, WorkContent2, WorkContent3, WorkContent4, WorkContent5 };
+
                 if (!App.インストール先チェック())
                 {
                     App.Current.Shutdown();
@@ -145,7 +153,10 @@ namespace WorkTimeRec.Views
         /// <param name="e"></param>
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            var window = new SettingsWindow(_設定!)
+            var window = new SettingsWindow(
+                _設定!,
+                _timesFile,
+                _workCombos)
             {
                 Owner = this
             };
@@ -194,28 +205,41 @@ namespace WorkTimeRec.Views
         private void HistoryButton_Click(object sender, RoutedEventArgs e)
         {
             Opacity = 0.5;
-            if (_workHistoryWindow is null)
+            try
             {
-                _workHistoryWindow = new WorkHistoryWindow
+                if (_workHistoryWindow is null)
                 {
-                    Owner = this
-                };
-            }
+                    _workHistoryWindow = new WorkHistoryWindow(_timesFile, ref _searchWindow)
+                    {
+                        Owner = this
+                    };
+                }
 
-            _workHistoryWindow.SetHistory(new ComboBox[] { WorkContent1, WorkContent2, WorkContent3, WorkContent4, WorkContent5 });
+                _workHistoryWindow.作業項目設定(_workCombos);
+                _workHistoryWindow.作業時間設定(new ReadOnlyObservableCollection<作業時間管理>(_times));
 
-            // 履歴画面表示
-            _workHistoryWindow.ShowDialog();
+                // 履歴画面表示
+                _workHistoryWindow.ShowDialog();
 
-            if (0 < _workHistoryWindow.SelectedNo)
-            {
-                if (FindName($"WorkContent{_workHistoryWindow.SelectedNo}") is ComboBox cmb)
+                if (_searchWindow is null &&
+                    _workHistoryWindow.SearchWindow is not null)
                 {
-                    cmb.Focus();
-                    cmb.Text = _workHistoryWindow.SelectedText;
+                    _searchWindow = _workHistoryWindow.SearchWindow;
+                }
+
+                if (0 < _workHistoryWindow.SelectedNo)
+                {
+                    if (FindName($"WorkContent{_workHistoryWindow.SelectedNo}") is ComboBox cmb)
+                    {
+                        cmb.Focus();
+                        cmb.Text = _workHistoryWindow.SelectedText;
+                    }
                 }
             }
-            Opacity = 1.0;
+            finally
+            {
+                Opacity = 1.0;
+            }
         }
 
         /// <summary>
@@ -225,6 +249,14 @@ namespace WorkTimeRec.Views
         /// <param name="e"></param>
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
+            if (_設定?.作業クリアの確認 == true)
+            {
+                if (メッセージボックス.確認("作業コンボボックスのテキスト入力をクリアしますか？") != MessageBoxResult.Yes)
+                {
+                    return;
+                }
+            }
+
             コンボボックス操作.テキストクリア(_入力項目管理.Values.ToList());
         }
 
@@ -268,7 +300,29 @@ namespace WorkTimeRec.Views
             {
                 // Ctrl
 
-                ショートカットキー処理(sender, e);
+                Ctrlショートカットキー処理(sender, e);
+            }
+        }
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (!キー操作.Ctrlキー押下)
+            {
+                return;
+            }
+
+            switch (e.Key)
+            {
+                case Key.Up:
+                    e.Handled = true;
+                    コンボボックス操作.上のコンボに移動(_workCombos);
+                    break;
+                case Key.Down:
+                    e.Handled = true;
+                    コンボボックス操作.下のコンボに移動(_workCombos);
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -284,12 +338,10 @@ namespace WorkTimeRec.Views
                 return;
             }
 
-            if (e.Key != System.Windows.Input.Key.Enter)
+            if (e.Key == Key.Enter)
             {
-                return;
+                ボタンクリック(_入力項目管理.First(x => x.Value == cmb).Key);
             }
-
-            ボタンクリック(_入力項目管理.First(x => x.Value == cmb).Key);
         }
 
         /// <summary>
@@ -406,36 +458,40 @@ namespace WorkTimeRec.Views
             }
         }
 
-        private void ショートカットキー処理(object sender, System.Windows.Input.KeyEventArgs e)
+        private void Ctrlショートカットキー処理(object sender, System.Windows.Input.KeyEventArgs e)
         {
             switch (e.Key)
             {
-                case System.Windows.Input.Key.D1:
+                case Key.D1:
                     WorkContent1.Focus();
                     break;
-                case System.Windows.Input.Key.D2:
+                case Key.D2:
                     WorkContent2.Focus();
                     break;
-                case System.Windows.Input.Key.D3:
+                case Key.D3:
                     WorkContent3.Focus();
                     break;
-                case System.Windows.Input.Key.D4:
+                case Key.D4:
                     WorkContent4.Focus();
                     break;
-                case System.Windows.Input.Key.D5:
+                case Key.D5:
                     WorkContent5.Focus();
                     break;
-                case System.Windows.Input.Key.OemComma:
+                case Key.OemComma:
                     // 設定
                     SettingsButton.Focus();
                     SettingsButton_Click(sender, e);
                     break;
-                case System.Windows.Input.Key.L:
+                case Key.F:
+                    // 検索
+                    検索画面表示();
+                    break;
+                case Key.L:
                     // ログフォルダ
                     LogButton.Focus();
                     LogButton_Click(sender, e);
                     break;
-                case System.Windows.Input.Key.H:
+                case Key.H:
                     // 作業履歴
                     e.Handled = true;
                     HistoryButton.Focus();
@@ -443,6 +499,26 @@ namespace WorkTimeRec.Views
                     break;
                 default:
                     break;
+            }
+        }
+
+        private void 検索画面表示()
+        {
+            Opacity = 0.5;
+            try
+            {
+                if (_searchWindow is null)
+                {
+                    _searchWindow = new SearchWindow(_timesFile);
+                }
+                _searchWindow.Owner = this;
+
+                // 検索画面表示
+                _searchWindow.ShowDialog();
+            }
+            finally
+            {
+                Opacity = 1.0;
             }
         }
 
@@ -740,17 +816,33 @@ namespace WorkTimeRec.Views
             System.Collections.IList selectedList,
             ObservableCollection<作業時間管理> times)
         {
-            const int 連続とみなす分間隔 = 2;
-
             var list = new 作業時間管理[selectedList.Count];
             selectedList.CopyTo(list, 0);
             list = list.OrderBy(x => x.開始).ToArray();
 
             var removeList = new List<作業時間管理>();
 
-            // 大きければ代入
+            終了時間更新と削除対象収集(list, removeList);
+
+            if (!removeList.Any())
+            {
+                メッセージボックス.情報("マージできるものはありませんでした。");
+                return;
+            }
+
+            foreach (var item in removeList)
+            {
+                // マージ済みのものを削除
+                times.Remove(item);
+            }
+        }
+
+        private static void 終了時間更新と削除対象収集(作業時間管理[] list, List<作業時間管理> removeList)
+        {
+            const int 連続とみなす分間隔 = 2;
 
             int i = 0;
+
             foreach (var item in list.Skip(1))
             {
                 if (時間操作.秒まで(list[i].終了).AddMinutes(連続とみなす分間隔) >=
@@ -768,18 +860,6 @@ namespace WorkTimeRec.Views
                 {
                     i++;
                 }
-            }
-
-            if (!removeList.Any())
-            {
-                メッセージボックス.情報("マージできるものはありませんでした。");
-                return;
-            }
-
-            foreach (var item in removeList)
-            {
-                // マージ済みのものを削除
-                times.Remove(item);
             }
         }
 
