@@ -18,5 +18,12 @@
         <Setter Property="IsTabStop" Value="False" />
     </Style>
 
+    <Style
+        x:Key="ReadonlyHilightTextStyle"
+        BasedOn="{StaticResource ReadonlyTextStyle}"
+        TargetType="TextBox">
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
     <Style BasedOn="{StaticResource BaseTextBoxStyle}" TargetType="TextBox" />
 </ResourceDictionary>

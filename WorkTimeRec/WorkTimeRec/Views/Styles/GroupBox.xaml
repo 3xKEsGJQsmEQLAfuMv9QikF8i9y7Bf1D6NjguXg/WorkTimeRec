@@ -4,6 +4,7 @@
         <Setter Property="Margin" Value="10,10,10,0" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="BorderBrush" Value="DarkGray" />
+        <Setter Property="BorderThickness" Value="0.2" />
     </Style>
 
 </ResourceDictionary>

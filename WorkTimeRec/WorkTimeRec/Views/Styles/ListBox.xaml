@@ -129,6 +129,31 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
+        <!--<Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Foreground" Value="Yellow"></Setter>
+                    <Style.Triggers>
+                        <Trigger Property="ListBox.IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="Red"></Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>-->
+
+        <!--<Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Style.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="Red"></Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>-->
     </Style>
 
     <!--  リストボックス既定スタイル  -->
