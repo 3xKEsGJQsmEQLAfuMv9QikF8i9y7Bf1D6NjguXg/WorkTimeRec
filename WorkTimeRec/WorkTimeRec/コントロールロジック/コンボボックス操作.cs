@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace WorkTimeRec.コントロールロジック
 {
@@ -84,6 +87,43 @@ namespace WorkTimeRec.コントロールロジック
                 cmb.Text = "";
             }
         }
+
+        public static void 上のコンボに移動(ComboBox[] combos)
+        {
+            if (!combos.Any(c => c.IsKeyboardFocusWithin) ||
+                combos.First().IsKeyboardFocusWithin)
+            {
+                return;
+            }
+
+            for (int i = combos.Length - 1; 0 < i; i--)
+            {
+                if (combos[i].IsKeyboardFocusWithin)
+                {
+                    combos[i - 1].Focus();
+                    return;
+                }
+            }
+        }
+
+        public static void 下のコンボに移動(ComboBox[] combos)
+        {
+            if (!combos.Any(c => c.IsKeyboardFocusWithin) ||
+                combos.Last().IsKeyboardFocusWithin)
+            {
+                return;
+            }
+
+            for (int i = 0; i < combos.Length - 1; i++)
+            {
+                if (combos[i].IsKeyboardFocusWithin)
+                {
+                    combos[i + 1].Focus();
+                    return;
+                }
+            }
+        }
+
 
     }
 }
