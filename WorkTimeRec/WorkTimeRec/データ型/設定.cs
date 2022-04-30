@@ -10,8 +10,10 @@ namespace WorkTimeRec.データ型
         bool 起動時に作業コンボボックスのテキスト設定,
         bool 並行作業保存,
         bool 並行作業,
+        bool 作業クリアの確認,
         bool 作業終了の確認,
-        通知情報[] 通知
+        通知情報[] 通知,
+        bool 通知音
     );
 
     public enum 作業中タスクバーアイコン

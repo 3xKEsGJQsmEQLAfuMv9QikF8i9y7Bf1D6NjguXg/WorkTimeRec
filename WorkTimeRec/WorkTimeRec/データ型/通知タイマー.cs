@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Threading;
 
 namespace WorkTimeRec.データ型
@@ -38,7 +35,8 @@ namespace WorkTimeRec.データ型
             }
 
             var now = DateTime.Now;
-            if (_通知した時刻.Hour == now.Hour &&
+            if (_通知した時刻.Day == now.Day &&
+                _通知した時刻.Hour == now.Hour &&
                 _通知した時刻.Minute == now.Minute)
             {
                 // 通知済み
@@ -65,11 +63,10 @@ namespace WorkTimeRec.データ型
             {
                 _timer.Start();
             }
-        }
-
-        public void 停止()
-        {
-            _timer.Stop();
+            else
+            {
+                _timer.Stop();
+            }
         }
 
         public void Dispose()
