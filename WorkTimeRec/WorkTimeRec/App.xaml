@@ -14,6 +14,7 @@
                 <ResourceDictionary Source="/Views/Styles/Button.xaml" />
                 <ResourceDictionary Source="/Views/Styles/CheckBox.xaml" />
                 <ResourceDictionary Source="/Views/Styles/ComboBox.xaml" />
+                <ResourceDictionary Source="/Views/Styles/Grid.xaml" />
                 <ResourceDictionary Source="/Views/Styles/GroupBox.xaml" />
                 <ResourceDictionary Source="/Views/Styles/ListBox.xaml" />
                 <ResourceDictionary Source="/Views/Styles/ListView.xaml" />
