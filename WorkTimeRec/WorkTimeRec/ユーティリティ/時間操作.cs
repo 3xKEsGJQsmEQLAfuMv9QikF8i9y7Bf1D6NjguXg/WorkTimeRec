@@ -66,6 +66,14 @@ namespace WorkTimeRec.ユーティリティ
         public static DateTime 秒まで(DateTime value) => 
             value.AddTicks(-(value.Ticks % TimeSpan.FromSeconds(1).Ticks));
 
+        public static bool 年月日に変換(string value, out DateTime d) => 
+            DateTime.TryParseExact(
+                value,
+                "yyyyMMdd",
+                CultureInfo.CurrentCulture,
+                DateTimeStyles.None,
+                out d);
+
         public static bool 時として正しい(string value)
         {
             if (!int.TryParse(value, out int i))
