@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
@@ -182,7 +183,7 @@ namespace WorkTimeRec.Views
             InitializeItemIndex();
             if (GraphButton.IsChecked == true)
             {
-                await InitializeGraphListAsync();
+                await グラフリストボックス初期化Async();
                 _graphLoaded = true;
             }
         }
@@ -193,8 +194,13 @@ namespace WorkTimeRec.Views
             SelectedText = "";
         }
 
-        private async Task InitializeGraphListAsync()
+        private async Task グラフリストボックス初期化Async()
         {
+            if (_timesFile is null)
+            {
+                throw new Exception("初期化ミス");
+            }
+
             TxtG5.Text = 時間操作.月日と曜日文字列(DateTime.Now);
             for (int i = 0; i < _graphDatas.Length; i++)
             {
@@ -221,36 +227,148 @@ namespace WorkTimeRec.Views
             }
         }
 
-        private async Task 以前の作業時間設定Async(ObservableCollection<作業内容と時間>[] list)
+        private async Task 今日の作業時間設定Async(ObservableCollection<作業内容と時間> graphList)
         {
-            if (_timesFile is null)
+            var 今日 = DateTime.Now;
+            try
             {
-                throw new Exception("初期化ミス");
+                await ログファイル読み込みAsync(graphList, 今日);
+            }
+            catch (Exception ex)
+            {
+                メッセージボックス.エラー(ex.ToString());
+                return;
             }
 
-            var files = 対象ファイル一覧取得();
+            作業時間一覧の内容を反映(graphList, 今日);
+        }
 
-            string 今日の年月日文字列 = 時間操作.年月日文字列(DateTime.Now, false);
-
-            int index = 3;
-            foreach (var f in files)
+        private async Task ログファイル読み込みAsync(ObservableCollection<作業内容と時間> list, DateTime date)
+        {
+            await foreach (string[]? columns in _timesFile.ファイル読み込みAsync(date))
             {
-                if (f.Name.StartsWith(今日の年月日文字列))
+                if (columns is null ||
+                    columns.Length == 0)
                 {
                     continue;
                 }
 
-                if (await 指定日の作業時間設定Async(list[index], index + 1, f.Name))
+                作業内容ごとに作業時間集計(
+                    columns[作業時間ファイル.作業時間インデックス],
+                    columns[作業時間ファイル.作業内容インデックス],
+                    list);
+            }
+
+        }
+
+        private void 作業時間一覧の内容を反映(ObservableCollection<作業内容と時間> graphList, DateTime date)
+        {
+            foreach (var item in _times ?? 空リスト)
+            {
+                if (item.開始.Date != date.Date)
                 {
-                    index--;
+                    continue;
                 }
 
-                if (index < 0)
+                var 一致項目 = graphList.FirstOrDefault(x =>
+                    x.作業内容 == item.作業内容);
+
+                if (一致項目 is null)
+                {
+                    graphList.Add(new(item.作業内容, item.作業時間));
+                    continue;
+                }
+
+                if (0 < item.作業時間.TotalSeconds)
+                {
+                    一致項目.作業時間 += item.作業時間;
+                }
+            }
+        }
+
+        private async Task 以前の作業時間設定Async(ObservableCollection<作業内容と時間>[] graphList)
+        {
+            var files = 対象ファイル一覧取得();
+            DateTime 今日 = DateTime.Now;
+
+            var 対象日候補 = new SortedSet<DateTime>();
+            
+            画面の一覧から対象日候補収集(今日, 対象日候補);
+            ログファイルから対象日候補収集(今日, files, 対象日候補);
+
+            int columnIndex = 3;
+            foreach (var 対象日 in 対象日候補.OrderByDescending(x => x.Date).Take(4))
+            {
+                if (FindName($"TxtG{columnIndex + 1}") is not TextBox txtBox)
+                {
+                    break;
+                }
+                txtBox.Text = 時間操作.月日と曜日文字列(対象日);
+
+                作業時間一覧の内容を反映(graphList[columnIndex], 対象日);
+
+                var f = files.FirstOrDefault(x => x.Name.StartsWith(時間操作.年月日文字列(対象日, false)));
+                if (f is not null)
+                {
+                    await 指定日の作業時間設定Async(graphList[columnIndex], columnIndex + 1, f.Name);
+                }
+
+                columnIndex--;
+                if (columnIndex < 0)
                 {
                     break;
                 }
             }
+        }
 
+        private void 画面の一覧から対象日候補収集(DateTime 今日, SortedSet<DateTime> 対象日候補)
+        {
+            var 画面の作業時間一覧 = _times
+                ?.Where(x => x.開始.Date < 今日.Date)
+                .GroupBy(x => x.開始.Date)
+                .OrderByDescending(x => x.Key.Date);
+
+            if (画面の作業時間一覧 is not null)
+            {
+                foreach (var item in 画面の作業時間一覧)
+                {
+                    対象日候補.Add(item.Key.Date);
+                    if (4 <= 対象日候補.Count)
+                    {
+                        return;
+                    }
+                }
+            }
+        }
+
+        private void ログファイルから対象日候補収集(
+            DateTime 今日,
+            IOrderedEnumerable<FileInfo> files,
+            SortedSet<DateTime> 対象日候補)
+        {
+            int cnt = 0;
+            string 今日の年月日文字列 = 時間操作.年月日文字列(今日, false);
+
+            foreach (var f in files)
+            {
+                if (f.Name.Substring(0, 8).CompareTo(今日の年月日文字列) != -1)
+                {
+                    continue;
+                }
+
+                if (!時間操作.年月日に変換(Path.GetFileNameWithoutExtension(f.Name), out DateTime d))
+                {
+                    continue;
+                }
+
+                対象日候補.Add(d.Date);
+                cnt++;
+
+                if (4 <= cnt)
+                {
+                    return;
+                }
+            }
         }
 
         private IOrderedEnumerable<FileInfo> 対象ファイル一覧取得()
@@ -268,78 +386,16 @@ namespace WorkTimeRec.Views
         private async Task<bool> 指定日の作業時間設定Async(
             ObservableCollection<作業内容と時間> list, int columnIndex, string fname)
         {
-            if (FindName($"TxtG{columnIndex}") is not TextBox txtBox)
+            if (!時間操作.年月日に変換(Path.GetFileNameWithoutExtension(fname), out DateTime d))
             {
                 return false;
             }
 
-            if (!DateTime.TryParseExact(
-                Path.GetFileNameWithoutExtension(fname),
-                "yyyyMMdd",
-                CultureInfo.CurrentCulture,
-                DateTimeStyles.None,
-                out DateTime d))
-            {
-                return false;
-            }
-
-            txtBox.Text = 時間操作.月日と曜日文字列(d);
             await ログファイル読み込みAsync(list, d);
 
+            作業時間一覧の内容を反映(list, d);
+
             return true;
-        }
-
-        private async Task 今日の作業時間設定Async(ObservableCollection<作業内容と時間> list)
-        {
-            try
-            {
-                await ログファイル読み込みAsync(list, DateTime.Now);
-            }
-            catch (Exception ex)
-            {
-                メッセージボックス.エラー(ex.ToString());
-                return;
-            }
-
-            foreach (var item in _times ?? 空リスト)
-            {
-                var 一致項目 = list.FirstOrDefault(x => x.作業内容 == item.作業内容);
-                if (一致項目 is null)
-                {
-                    list.Add(new(item.作業内容, item.作業時間));
-                }
-                else
-                {
-                    if (0 < item.作業時間.TotalSeconds)
-                    {
-                        一致項目.作業時間 += item.作業時間;
-                    }
-                }
-            }
-
-        }
-
-        private async Task ログファイル読み込みAsync(ObservableCollection<作業内容と時間> list, DateTime date)
-        {
-            if (_timesFile is null)
-            {
-                return;
-            }
-
-            await foreach (string[]? columns in _timesFile.ファイル読み込みAsync(date))
-            {
-                if (columns is null ||
-                    columns.Length == 0)
-                {
-                    continue;
-                }
-
-                作業内容ごとに作業時間集計(
-                    columns[作業時間ファイル.作業時間インデックス],
-                    columns[作業時間ファイル.作業内容インデックス],
-                    list);
-            }
-
         }
 
         private void 作業内容ごとに作業時間集計(
@@ -459,7 +515,7 @@ namespace WorkTimeRec.Views
                 ItemButton.IsEnabled = false;
                 GraphButton.IsEnabled = false;
 
-                await InitializeGraphListAsync();
+                await グラフリストボックス初期化Async();
                 _graphLoaded = true;
 
                 ItemButton.IsEnabled = true;
