@@ -26,7 +26,19 @@ namespace WorkTimeRec.データ型
             }
         }
 
-        public TimeSpan 作業時間 { get; set; }
+        private TimeSpan _作業時間;
+        public TimeSpan 作業時間
+        {
+            get => _作業時間;
+            set
+            {
+                if (value != _作業時間)
+                {
+                    _作業時間 = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
 
         private int _value;
         public int Value
