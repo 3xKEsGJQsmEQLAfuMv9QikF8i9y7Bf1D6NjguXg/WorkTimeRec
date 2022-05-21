@@ -168,7 +168,10 @@
                 <DataTemplate>
                     <Grid>
                         <ProgressBar Value="{Binding Value, Mode=OneWay}" />
-                        <TextBlock Foreground="White" Text="{Binding 作業内容, Mode=OneWay}" />
+                        <TextBlock
+                            Foreground="White"
+                            Text="{Binding 作業内容, Mode=OneWay}"
+                            ToolTip="{Binding 作業時間, Mode=OneWay}" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -193,7 +196,10 @@
                 <DataTemplate>
                     <Grid>
                         <ProgressBar Value="{Binding Value, Mode=OneWay}" />
-                        <TextBlock Foreground="White" Text="{Binding 作業内容, Mode=OneWay}" />
+                        <TextBlock
+                            Foreground="White"
+                            Text="{Binding 作業内容, Mode=OneWay}"
+                            ToolTip="{Binding 作業時間, Mode=OneWay}" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -218,7 +224,10 @@
                 <DataTemplate>
                     <Grid>
                         <ProgressBar Value="{Binding Value, Mode=OneWay}" />
-                        <TextBlock Foreground="White" Text="{Binding 作業内容, Mode=OneWay}" />
+                        <TextBlock
+                            Foreground="White"
+                            Text="{Binding 作業内容, Mode=OneWay}"
+                            ToolTip="{Binding 作業時間, Mode=OneWay}" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -243,7 +252,10 @@
                 <DataTemplate>
                     <Grid>
                         <ProgressBar Value="{Binding Value, Mode=OneWay}" />
-                        <TextBlock Foreground="White" Text="{Binding 作業内容, Mode=OneWay}" />
+                        <TextBlock
+                            Foreground="White"
+                            Text="{Binding 作業内容, Mode=OneWay}"
+                            ToolTip="{Binding 作業時間, Mode=OneWay}" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -269,7 +281,10 @@
                 <DataTemplate>
                     <Grid>
                         <ProgressBar Value="{Binding Value, Mode=OneWay}" />
-                        <TextBlock Foreground="White" Text="{Binding 作業内容, Mode=OneWay}" />
+                        <TextBlock
+                            Foreground="White"
+                            Text="{Binding 作業内容, Mode=OneWay}"
+                            ToolTip="{Binding 作業時間, Mode=OneWay}" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
