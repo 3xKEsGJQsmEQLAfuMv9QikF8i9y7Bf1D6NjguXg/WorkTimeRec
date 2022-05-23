@@ -10,18 +10,16 @@ namespace WorkTimeRec.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is null ||
-                (DateTime)value == DateTime.MinValue)
+            if (value is not DateTime d ||
+                d == DateTime.MinValue)
             {
                 return "";
             }
 
-            return 時間操作.時刻文字列((DateTime)value, true, true);
+            return 時間操作.時刻文字列(d, true, true);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
             throw new NotImplementedException();
-        }
     }
 }
