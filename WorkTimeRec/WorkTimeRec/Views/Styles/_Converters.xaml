@@ -5,6 +5,7 @@
 
     <conv:DateTimeConverter x:Key="DateTimeConv" />
     <conv:TimeSpanConverter x:Key="TimeSpanConv" />
+    <conv:TimeSpanMConverter x:Key="TimeSpanMConv" />
     <conv:BooleansToBooleanConverter x:Key="BoolsToBoolConv" />
     <BooleanToVisibilityConverter x:Key="BoolToVisibilityConv" />
 
