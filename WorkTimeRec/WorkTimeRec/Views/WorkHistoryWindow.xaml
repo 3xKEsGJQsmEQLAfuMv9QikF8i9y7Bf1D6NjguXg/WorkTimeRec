@@ -171,7 +171,9 @@
                         <TextBlock
                             Foreground="White"
                             Text="{Binding 作業内容, Mode=OneWay}"
-                            ToolTip="{Binding 作業時間, Mode=OneWay}" />
+                            ToolTip="{Binding 作業時間, Mode=OneWay, Converter={StaticResource TimeSpanConv}}"
+                            ToolTipService.HorizontalOffset="30"
+                            ToolTipService.VerticalOffset="15" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -199,7 +201,9 @@
                         <TextBlock
                             Foreground="White"
                             Text="{Binding 作業内容, Mode=OneWay}"
-                            ToolTip="{Binding 作業時間, Mode=OneWay}" />
+                            ToolTip="{Binding 作業時間, Mode=OneWay, Converter={StaticResource TimeSpanConv}}"
+                            ToolTipService.HorizontalOffset="30"
+                            ToolTipService.VerticalOffset="15" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -227,7 +231,9 @@
                         <TextBlock
                             Foreground="White"
                             Text="{Binding 作業内容, Mode=OneWay}"
-                            ToolTip="{Binding 作業時間, Mode=OneWay}" />
+                            ToolTip="{Binding 作業時間, Mode=OneWay, Converter={StaticResource TimeSpanConv}}"
+                            ToolTipService.HorizontalOffset="30"
+                            ToolTipService.VerticalOffset="15" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -255,7 +261,9 @@
                         <TextBlock
                             Foreground="White"
                             Text="{Binding 作業内容, Mode=OneWay}"
-                            ToolTip="{Binding 作業時間, Mode=OneWay}" />
+                            ToolTip="{Binding 作業時間, Mode=OneWay, Converter={StaticResource TimeSpanConv}}"
+                            ToolTipService.HorizontalOffset="30"
+                            ToolTipService.VerticalOffset="15" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -284,7 +292,9 @@
                         <TextBlock
                             Foreground="White"
                             Text="{Binding 作業内容, Mode=OneWay}"
-                            ToolTip="{Binding 作業時間, Mode=OneWay}" />
+                            ToolTip="{Binding 作業時間, Mode=OneWay, Converter={StaticResource TimeSpanConv}}"
+                            ToolTipService.HorizontalOffset="30"
+                            ToolTipService.VerticalOffset="15" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

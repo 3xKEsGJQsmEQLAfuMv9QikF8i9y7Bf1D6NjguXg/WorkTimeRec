@@ -198,7 +198,7 @@
 
                     <GridViewColumn Width="75" Header="作業時間">
                         <GridViewColumn.DisplayMemberBinding>
-                            <MultiBinding Converter="{StaticResource TimeSpanConv}">
+                            <MultiBinding Converter="{StaticResource TimeSpanMConv}">
                                 <Binding Mode="OneWay" Path="終了" />
                                 <Binding Mode="OneWay" Path="作業時間" />
                             </MultiBinding>
