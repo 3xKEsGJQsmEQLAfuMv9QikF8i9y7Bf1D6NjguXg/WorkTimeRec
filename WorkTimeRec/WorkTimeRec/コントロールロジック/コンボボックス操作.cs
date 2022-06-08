@@ -3,9 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace WorkTimeRec.コントロールロジック
 {
@@ -96,9 +94,16 @@ namespace WorkTimeRec.コントロールロジック
                 return;
             }
 
+            bool start = false;
             for (int i = combos.Length - 1; 0 < i; i--)
             {
                 if (combos[i].IsKeyboardFocusWithin)
+                {
+                    start = true;
+                }
+
+                if (start &&
+                    combos[i - 1].IsEnabled)
                 {
                     combos[i - 1].Focus();
                     return;
@@ -114,9 +119,16 @@ namespace WorkTimeRec.コントロールロジック
                 return;
             }
 
+            bool start = false;
             for (int i = 0; i < combos.Length - 1; i++)
             {
                 if (combos[i].IsKeyboardFocusWithin)
+                {
+                    start = true;
+                }
+
+                if (start &&
+                    combos[i + 1].IsEnabled)
                 {
                     combos[i + 1].Focus();
                     return;
