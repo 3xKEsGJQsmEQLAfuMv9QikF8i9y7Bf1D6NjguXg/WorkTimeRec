@@ -60,6 +60,18 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
+                <Rectangle>
+                    <Rectangle.Style>
+                        <Style BasedOn="{StaticResource FocusedRectangleStyle}" TargetType="Rectangle">
+                            <Setter Property="Visibility" Value="Hidden" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=WorkContent1, Path=IsKeyboardFocusWithin}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
                 <ComboBox x:Name="WorkContent1" ToolTip="Ctrl + 1" />
                 <ProgressBar x:Name="WorkProgress1" />
 
@@ -75,6 +87,18 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
+                <Rectangle>
+                    <Rectangle.Style>
+                        <Style BasedOn="{StaticResource FocusedRectangleStyle}" TargetType="Rectangle">
+                            <Setter Property="Visibility" Value="Hidden" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=WorkContent2, Path=IsKeyboardFocusWithin}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
                 <ComboBox x:Name="WorkContent2" ToolTip="Ctrl + 2" />
                 <ProgressBar x:Name="WorkProgress2" />
 
@@ -90,6 +114,18 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
+                <Rectangle>
+                    <Rectangle.Style>
+                        <Style BasedOn="{StaticResource FocusedRectangleStyle}" TargetType="Rectangle">
+                            <Setter Property="Visibility" Value="Hidden" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=WorkContent3, Path=IsKeyboardFocusWithin}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
                 <ComboBox x:Name="WorkContent3" ToolTip="Ctrl + 3" />
                 <ProgressBar x:Name="WorkProgress3" />
 
@@ -105,6 +141,18 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
+                <Rectangle>
+                    <Rectangle.Style>
+                        <Style BasedOn="{StaticResource FocusedRectangleStyle}" TargetType="Rectangle">
+                            <Setter Property="Visibility" Value="Hidden" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=WorkContent4, Path=IsKeyboardFocusWithin}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
                 <ComboBox x:Name="WorkContent4" ToolTip="Ctrl + 4" />
                 <ProgressBar x:Name="WorkProgress4" />
 
@@ -120,6 +168,18 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
+                <Rectangle>
+                    <Rectangle.Style>
+                        <Style BasedOn="{StaticResource FocusedRectangleStyle}" TargetType="Rectangle">
+                            <Setter Property="Visibility" Value="Hidden" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=WorkContent5, Path=IsKeyboardFocusWithin}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
                 <ComboBox x:Name="WorkContent5" ToolTip="Ctrl + 5" />
                 <ProgressBar x:Name="WorkProgress5" />
 
